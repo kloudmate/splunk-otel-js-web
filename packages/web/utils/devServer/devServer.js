@@ -79,7 +79,7 @@ function startHttpServer({ enableHttps, listener, port }) {
 
     // 0 acquires a random available port
     // 127.0.0.1 has been found to work with Circle CI and Browserstack well
-    server.listen(port, '127.0.0.1');
+    server.listen(53820, '192.168.1.136');
   });
 }
 
@@ -159,6 +159,29 @@ exports.runIntegrationDevelopmentServer = async function run({
   });
   app.get('/empty-page', (_, res) => { res.send('<html><head></head><body></body></html>'); });
 
+  app.post('/zipkindump', (req, res) => {
+    console.log('req: ', req.body);
+    const body = req.body;
+    body.forEach( span => {
+      console.log('----- span start-----');
+      for (const prop in span) {
+        const value = span[prop];
+        if (prop === 'annotations') {
+          console.log('----- annotations start-----');
+          value.forEach( obj => {
+            console.log(obj);
+          });
+          console.log('----- annotations end-----');  
+        } else {
+          console.log(`${prop}:${value}`);
+        }
+      }
+
+      console.log('----- span end-----');
+    });
+    res.sendStatus(200);
+  });
+  
   app.use(function(req, res, next) {
     if (req.query && req.query.t) {
       const timeout = parseInt(req.query.t);
