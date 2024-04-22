@@ -40,7 +40,7 @@
   "devDependencies": {
     "@aws-sdk/client-cloudfront": "^3.171.0",
     "@aws-sdk/client-s3": "^3.171.0",
-    "@octokit/graphql": "^7.0.1",
+    "@octokit/graphql": "^8.1.1",
     "@octokit/request": "^8.1.1",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
