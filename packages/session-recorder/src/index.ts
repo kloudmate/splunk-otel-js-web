@@ -152,7 +152,7 @@ const SplunkRumRecorder = {
 
     const headers = {};
     if (apiToken) {
-      headers['X-SF-Token'] = apiToken;
+      headers['authorization'] = apiToken;
     }
 
     if (rumAccessToken) {

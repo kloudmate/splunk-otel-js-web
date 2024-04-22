@@ -24,10 +24,12 @@ export class SplunkOTLPTraceExporter extends OTLPTraceExporter {
   protected readonly _onAttributesSerializing: SplunkExporterConfig['onAttributesSerializing'];
   protected readonly _xhrSender: SplunkExporterConfig['xhrSender'] = NATIVE_XHR_SENDER;
   protected readonly _beaconSender: SplunkExporterConfig['beaconSender'] = typeof navigator !== 'undefined' && navigator.sendBeacon ? NATIVE_BEACON_SENDER : undefined;
+  private readonly apiToken: string;
 
   constructor(options: SplunkExporterConfig) {
     super(options);
     this._onAttributesSerializing = options.onAttributesSerializing || NOOP_ATTRIBUTES_TRANSFORMER;
+    this.apiToken = options.apiToken as string;
   }
 
   convert(spans: ReadableSpan[]): IExportTraceServiceRequest {
@@ -61,7 +63,8 @@ export class SplunkOTLPTraceExporter extends OTLPTraceExporter {
         // need to test with actual ingest
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        ...this.headers
+        authorization: this.apiToken,
+        ...this.headers,
       });
     }
 

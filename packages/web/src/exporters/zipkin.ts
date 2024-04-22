@@ -70,24 +70,27 @@ export class SplunkZipkinExporter implements SpanExporter {
   private readonly _onAttributesSerializing: SplunkExporterConfig['onAttributesSerializing'];
   private readonly _xhrSender: SplunkExporterConfig['xhrSender'];
   private readonly _beaconSender: SplunkExporterConfig['beaconSender'];
+  private readonly apiToken: string;
 
   constructor({
     url,
     onAttributesSerializing = NOOP_ATTRIBUTES_TRANSFORMER,
     xhrSender = NATIVE_XHR_SENDER,
     beaconSender = NATIVE_BEACON_SENDER,
+    apiToken,
   }: SplunkExporterConfig) {
     this.beaconUrl = url;
     this._onAttributesSerializing = onAttributesSerializing;
     this._xhrSender = xhrSender;
     this._beaconSender = beaconSender;
+    this.apiToken = apiToken as string;
   }
 
   export(
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void
   ): void {
-    const zspans = spans.map(span => this._mapToZipkinSpan(span));
+    const zspans = spans.map((span) => this._mapToZipkinSpan(span));
     const zJson = JSON.stringify(zspans);
     if (document.hidden && this._beaconSender && zJson.length <= 64000) {
       this._beaconSender(this.beaconUrl, zJson);
@@ -95,6 +98,7 @@ export class SplunkZipkinExporter implements SpanExporter {
       this._xhrSender!(this.beaconUrl, zJson, {
         Accept: '*/*',
         'Content-Type': 'text/plain;charset=UTF-8',
+        authorization: this.apiToken,
       });
     }
     resultCallback({ code: ExportResultCode.SUCCESS });

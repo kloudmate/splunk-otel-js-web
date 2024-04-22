@@ -186,6 +186,8 @@ export interface SplunkOtelWebConfig {
    * Config options passed to web tracer
    */
   tracer?: WebTracerConfig;
+
+  apiToken?: string;
 }
 
 interface SplunkOtelWebConfigInternal extends SplunkOtelWebConfig {
@@ -274,8 +276,9 @@ function buildExporter(options: SplunkOtelWebConfigInternal) {
   const url = options.beaconEndpoint + (options.rumAccessToken ? '?auth='+options.rumAccessToken : '');
   return options.exporter.factory({
     url,
-    otlp: options.exporter.otlp,
+    otlp: true,
     onAttributesSerializing: options.exporter.onAttributesSerializing,
+    apiToken: options.apiToken,
   });
 }
 
