@@ -151,12 +151,8 @@ const SplunkRumRecorder = {
     }
 
     const headers = {};
-    if (apiToken) {
-      headers['authorization'] = apiToken;
-    }
-
     if (rumAccessToken) {
-      exportUrl += `?auth=${rumAccessToken}`;
+      headers['Authorization'] = rumAccessToken;
     }
 
     const exporter = new OTLPLogExporter({

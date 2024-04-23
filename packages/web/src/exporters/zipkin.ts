@@ -98,7 +98,7 @@ export class SplunkZipkinExporter implements SpanExporter {
       this._xhrSender!(this.beaconUrl, zJson, {
         Accept: '*/*',
         'Content-Type': 'text/plain;charset=UTF-8',
-        authorization: this.apiToken,
+        Authorization: this.apiToken,
       });
     }
     resultCallback({ code: ExportResultCode.SUCCESS });

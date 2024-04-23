@@ -186,8 +186,6 @@ export interface SplunkOtelWebConfig {
    * Config options passed to web tracer
    */
   tracer?: WebTracerConfig;
-
-  apiToken?: string;
 }
 
 interface SplunkOtelWebConfigInternal extends SplunkOtelWebConfig {
@@ -273,12 +271,12 @@ function getBeaconEndpointForRealm(config: SplunkOtelWebConfigInternal) {
 }
 
 function buildExporter(options: SplunkOtelWebConfigInternal) {
-  const url = options.beaconEndpoint + (options.rumAccessToken ? '?auth='+options.rumAccessToken : '');
+  const url = options.beaconEndpoint as string;
   return options.exporter.factory({
     url,
     otlp: true,
     onAttributesSerializing: options.exporter.onAttributesSerializing,
-    apiToken: options.apiToken,
+    apiToken: options.rumAccessToken,
   });
 }
 

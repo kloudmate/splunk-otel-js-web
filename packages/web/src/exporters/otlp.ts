@@ -63,7 +63,7 @@ export class SplunkOTLPTraceExporter extends OTLPTraceExporter {
         // need to test with actual ingest
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        authorization: this.apiToken,
+        Authorization: this.apiToken,
         ...this.headers,
       });
     }
