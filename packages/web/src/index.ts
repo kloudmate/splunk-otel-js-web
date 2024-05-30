@@ -419,7 +419,10 @@ export const SplunkRum: SplunkOtelWebType = {
     // enabled: false prevents registerInstrumentations from enabling instrumentations in constructor
     // they will be enabled in registerInstrumentations
     const pluginDefaults = { ignoreUrls, enabled: false };
-
+    let userAgent = ""
+    if(window.navigator){
+      userAgent=window.navigator.userAgent
+    }
     const resourceAttrs: ResourceAttributes = {
       ...SDK_INFO,
       [SemanticResourceAttributes.TELEMETRY_SDK_NAME]: '@splunk/otel-web',
@@ -428,6 +431,7 @@ export const SplunkRum: SplunkOtelWebType = {
       'splunk.rumVersion': VERSION,
       'splunk.scriptInstance': instanceId,
       'app': applicationName,
+      'userAgent': userAgent
     };
 
     const syntheticsRunId = getSyntheticsRunId();
