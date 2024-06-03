@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,24 +24,24 @@ import { addSpanNetworkEvents } from '@opentelemetry/sdk-trace-web';
 import { SemanticAttributes } from '@opentelemetry/semantic-conventions';
 import { context, Context, ROOT_CONTEXT } from '@opentelemetry/api';
 
-export interface SplunkPostDocLoadResourceInstrumentationConfig extends InstrumentationConfig {
+export interface KloudmatePostDocLoadResourceInstrumentationConfig extends InstrumentationConfig {
   allowedInitiatorTypes?: string[];
   ignoreUrls?: (string|RegExp)[];
 }
 
-const MODULE_NAME = 'splunk-post-doc-load-resource';
+const MODULE_NAME = 'kloudmate-post-doc-load-resource';
 const defaultAllowedInitiatorTypes = ['img', 'script']; //other, css, link
 
 const nodeHasSrcAttribute = (node: Node): node is HTMLScriptElement | HTMLImageElement => (node instanceof HTMLScriptElement || node instanceof HTMLImageElement);
 
-export class SplunkPostDocLoadResourceInstrumentation extends InstrumentationBase {
+export class KloudmatePostDocLoadResourceInstrumentation extends InstrumentationBase {
   private performanceObserver: PerformanceObserver | undefined;
   private headMutationObserver: MutationObserver | undefined;
   private urlToContextMap: Record<string, Context>;
-  private config: SplunkPostDocLoadResourceInstrumentationConfig;
+  private config: KloudmatePostDocLoadResourceInstrumentationConfig;
 
-  constructor(config: SplunkPostDocLoadResourceInstrumentationConfig = {}) {
-    const processedConfig: SplunkPostDocLoadResourceInstrumentationConfig = Object.assign(
+  constructor(config: KloudmatePostDocLoadResourceInstrumentationConfig = {}) {
+    const processedConfig: KloudmatePostDocLoadResourceInstrumentationConfig = Object.assign(
       {},
       { allowedInitiatorTypes: defaultAllowedInitiatorTypes },
       config,

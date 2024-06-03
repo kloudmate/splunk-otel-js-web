@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -179,20 +179,20 @@ export function registerGlobal(
   allowOverride = false
 ): boolean {
   if (!globalThis[GLOBAL_OPENTELEMETRY_API_KEY]) {
-    diag.error('SplunkRum: Tried to access global before otel setup');
+    diag.error('KloudmateRum: Tried to access global before otel setup');
     return false;
   }
   const api = globalThis[GLOBAL_OPENTELEMETRY_API_KEY];
 
-  if (!api['splunk.rum.version']) {
-    api['splunk.rum.version'] = VERSION;
+  if (!api['kloudmate.rum.version']) {
+    api['kloudmate.rum.version'] = VERSION;
   }
-  if (api['splunk.rum.version'] !== VERSION) {
-    diag.warn(`SplunkRum: Global: Multiple versions detected (${VERSION} already registered)`);
+  if (api['kloudmate.rum.version'] !== VERSION) {
+    diag.warn(`KloudmateRum: Global: Multiple versions detected (${VERSION} already registered)`);
   }
 
   if (!allowOverride && api[type]) {
-    diag.error(`SplunkRum: Attempted duplicate registration of otel API ${type}`);
+    diag.error(`KloudmateRum: Attempted duplicate registration of otel API ${type}`);
     return false;
   }
 

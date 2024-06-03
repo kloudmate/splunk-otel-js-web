@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Test docload</title>
 
-	<%- renderAgent({
-    bufferTimeout: 200
-  }) %>
-  <link rel="stylesheet" href="/utils/devServer/assets/css-font-img.css">
+<head>
+  <meta charset="UTF-8">
+  <title>Test docload</title>
+
+  <%- renderAgent({ bufferTimeout: 200 }) %>
+    <link rel="stylesheet" href="/utils/devServer/assets/css-font-img.css">
 </head>
+
 <body>
   <p>Docload</p>
   <script>
@@ -21,10 +21,11 @@
       return oReq;
     }
     makeHXR('/some-data');
-		fetch('/some-data?t=1').then(response => response.json());
+    fetch('/some-data?t=1').then(response => response.json());
   </script>
 
-  <iframe src="iframe.ejs" frameborder="0"></iframe>  
-	<img src="/utils/devServer/assets/splunk-black.png?t=300">
+  <iframe src="iframe.ejs" frameborder="0"></iframe>
+  <img src="/utils/devServer/assets/kloudmate-black.png?t=300">
 </body>
+
 </html>

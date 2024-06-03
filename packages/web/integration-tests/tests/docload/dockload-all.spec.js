@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ module.exports = {
     
     //t=300 to defer load event until xhr/fetch/beacon can be potentially sent so we can test that they are not sent
     const resources = [
-      'css-font-img.css', 'splunk-black.png?t=300', 'iframe.ejs', 'splunk.woff'
+      'css-font-img.css', 'kloudmate-black.png?t=300', 'iframe.ejs', 'kloudmate.woff'
     ];
     const receivedSpans = await browser.globals.getReceivedSpans();
     for (const urlEnd of resources) {

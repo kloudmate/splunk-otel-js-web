@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>React</title>
 
-  <%- renderAgent({
-    context: {
-      async: true
-    }
-  }) %>
+  <%- renderAgent({ context: { async: true } }) %>
 
-  <script src="https://unpkg.com/react@latest/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/babel-core@5.2.17/browser.min.js"></script>
+    <script src="https://unpkg.com/react@latest/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-core@5.2.17/browser.min.js"></script>
 </head>
+
 <body>
   <h1>React</h1>
   <div id="root"></div>
@@ -24,9 +22,9 @@
 
       const [show, setShow] = React.useState(false);
       function onClick(e) {
-        setShow(!show); 
+        setShow(!show);
       }
-      
+
       return (
         <div>
           <button id="btn1" onClick={onClick}>Toggle</button>
@@ -37,8 +35,8 @@
 
     function Lazy() {
       React.useEffect(() => {
-        const span = SplunkRum.provider.getTracer('test').startSpan('custom-span').end()
-      });    
+        const span = KloudmateRum.provider.getTracer('test').startSpan('custom-span').end()
+      });
 
       return (
         <h2>Lazy</h2>
@@ -54,4 +52,5 @@
 
 
 </body>
+
 </html>

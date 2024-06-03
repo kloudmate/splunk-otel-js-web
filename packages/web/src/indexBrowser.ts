@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import SplunkRum, { SplunkOtelWebType } from './index';
+import KloudmateRum, { KloudmateOtelWebType } from './index';
 
 declare global {
   interface Window {
-    SplunkRum: SplunkOtelWebType | undefined;
+    KloudmateRum: KloudmateOtelWebType | undefined;
   }
 }
 
-export default SplunkRum;
+export default KloudmateRum;

@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import { findCookieValue, generateId, isIframe } from './utils';
     once created makes this very robust when used in multiple tabs/windows - tabs don't compete/
     race to do anything but set the max-age.
 
-    Finally, if SplunkRumNative exists, use its session ID exclusively and don't bother
+    Finally, if KloudmateRumNative exists, use its session ID exclusively and don't bother
     with setting cookies, checking for inactivity, etc.
 */
 
@@ -40,7 +40,7 @@ import { findCookieValue, generateId, isIframe } from './utils';
 const MaxSessionAgeMillis = 4 * 60 * 60 * 1000;
 const InactivityTimeoutSeconds = 15 * 60;
 const PeriodicCheckSeconds = 60;
-export const COOKIE_NAME = '_splunk_rum_sid';
+export const COOKIE_NAME = '_kloudmate_rum_sid';
 
 export type SessionIdType = string;
 let rumSessionId: SessionIdType | undefined;
@@ -131,7 +131,7 @@ export function updateSessionStatus(): void {
 }
 
 function hasNativeSessionId(): boolean {
-  return typeof window !== 'undefined' && window['SplunkRumNative'] && window['SplunkRumNative'].getNativeSessionId;
+  return typeof window !== 'undefined' && window['KloudmateRumNative'] && window['KloudmateRumNative'].getNativeSessionId;
 }
 
 export function initSessionTracking(
@@ -176,7 +176,7 @@ export function initSessionTracking(
 
 export function getRumSessionId(): SessionIdType | undefined {
   if (hasNativeSessionId()) {
-    return window['SplunkRumNative'].getNativeSessionId();
+    return window['KloudmateRumNative'].getNativeSessionId();
   }
   return rumSessionId;
 }

@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ module.exports = {
 
     const docFetch = await browser.globals.findSpan(span => span.name === 'documentFetch');
     const docLoad = await browser.globals.findSpan(span => span.name === 'documentLoad');
-    const scriptFetch = await browser.globals.findSpan(span => span.name === 'resourceFetch' && span.tags['http.url'].includes('splunk-otel-web.js'));
+    const scriptFetch = await browser.globals.findSpan(span => span.name === 'resourceFetch' && span.tags['http.url'].includes('kloudmate-otel-web.js'));
     const brokenImgFetch = await browser.globals.findSpan(span => span.name === 'resourceFetch' && span.tags['http.url'].includes('/nosuchimage.jpg'));
 
     await browser.assert.ok(docFetch, 'Checking docFetch span');

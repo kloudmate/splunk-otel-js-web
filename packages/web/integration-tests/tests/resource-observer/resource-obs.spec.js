@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ module.exports = {
     await browser.globals.findSpan(span => span.name === 'guard-span');
 
     const plAgentSpans = browser.globals.getReceivedSpans().filter( 
-      span => span.tags['http.url'] && span.tags['http.url'].endsWith('splunk-otel-web.js')
+      span => span.tags['http.url'] && span.tags['http.url'].endsWith('kloudmate-otel-web.js')
     );
     const plImageSpans = browser.globals.getReceivedSpans().filter( 
       span => span.tags['http.url'] && span.tags['http.url'].endsWith('no-cache.png')
@@ -45,12 +45,12 @@ module.exports = {
     await browser.assert.strictEqual(plImageSpans.length, 1);
   
     const imageSpan = await browser.globals.findSpan(
-      span => span.tags['http.url'] && span.tags['http.url'].endsWith('splunk-black.png?t=100')
+      span => span.tags['http.url'] && span.tags['http.url'].endsWith('kloudmate-black.png?t=100')
     );
 
     await browser.assert.ok(!!imageSpan, 'Image span found.');
-    await browser.assert.strictEqual(imageSpan.tags['component'], 'splunk-post-doc-load-resource');
-    const imgUrl = browser.globals.getUrl('/utils/devServer/assets/', []) + 'splunk-black.png?t=100';
+    await browser.assert.strictEqual(imageSpan.tags['component'], 'kloudmate-post-doc-load-resource');
+    const imgUrl = browser.globals.getUrl('/utils/devServer/assets/', []) + 'kloudmate-black.png?t=100';
     await browser.assert.strictEqual(imageSpan.tags['http.url'], imgUrl);
     await browser.assert.strictEqual(imageSpan.annotations.length, 9, 'Missing network events');
 
@@ -58,7 +58,7 @@ module.exports = {
       span => span.tags['http.url'] && span.tags['http.url'].endsWith('test.js')
     );
 
-    await browser.assert.strictEqual(scriptSpan.tags['component'], 'splunk-post-doc-load-resource');
+    await browser.assert.strictEqual(scriptSpan.tags['component'], 'kloudmate-post-doc-load-resource');
     const scriptUrl = browser.globals.getUrl('/utils/devServer/assets/', []) + 'test.js';
     await browser.assert.strictEqual(scriptSpan.tags['http.url'], scriptUrl);
     await browser.assert.strictEqual(scriptSpan.annotations.length, 9, 'Missing network events');
@@ -76,10 +76,10 @@ module.exports = {
     await browser.globals.findSpan(span => span.name === 'guard-span');
     const url = browser.globals.getUrl('/utils/devServer/assets/', []);
     await browser.assert.not.ok(browser.globals.getReceivedSpans().find(
-      span => span.tags['http.url'] === url + 'test.js' && span.tags['component'] === 'splunk-post-doc-load-resource'
+      span => span.tags['http.url'] === url + 'test.js' && span.tags['component'] === 'kloudmate-post-doc-load-resource'
     ));
     const imgSpan = browser.globals.getReceivedSpans().find(
-      span => span.tags['http.url'] === url + 'splunk-black.png' && span.tags['component'] === 'splunk-post-doc-load-resource'
+      span => span.tags['http.url'] === url + 'kloudmate-black.png' && span.tags['component'] === 'kloudmate-post-doc-load-resource'
     );
     await browser.assert.not.ok(imgSpan);
   },
@@ -95,7 +95,7 @@ module.exports = {
     await browser.globals.findSpan(span => span.name === 'guard-span');
 
     const imageSpans = await browser.globals.getReceivedSpans().filter(
-      span => span.tags['http.url'] && span.tags['http.url'].endsWith('splunk-black.png')
+      span => span.tags['http.url'] && span.tags['http.url'].endsWith('kloudmate-black.png')
     );
       
     // for debugging flaky tests
@@ -133,7 +133,7 @@ module.exports = {
     }
     await browser.assert.strictEqual(imageSpans.length , 2);
     const docLoadImage = imageSpans.find( span => span.tags['component'] === 'document-load');
-    const afterLoadImage = imageSpans.find( span => span.tags['component'] === 'splunk-post-doc-load-resource');
+    const afterLoadImage = imageSpans.find( span => span.tags['component'] === 'kloudmate-post-doc-load-resource');
 
     await browser.assert.notEqual(docLoadImage.traceId, afterLoadImage.traceId);
   },
@@ -149,15 +149,15 @@ module.exports = {
     await browser.globals.findSpan(span => span.name === 'guard-span');
 
     const plImageRootSpan = await browser.globals.getReceivedSpans().find(
-      span => span.tags['http.url'] && span.tags['http.url'].endsWith('splunk-black.png') 
-        && span.tags['component'] === 'splunk-post-doc-load-resource'
+      span => span.tags['http.url'] && span.tags['http.url'].endsWith('kloudmate-black.png') 
+        && span.tags['component'] === 'kloudmate-post-doc-load-resource'
     );
     const plImageParentSpan = await browser.globals.getReceivedSpans().find(
       span => span.name === 'image-parent'
     );
     const plImageChildSpan = await browser.globals.getReceivedSpans().find(
-      span => span.tags['http.url'] && span.tags['http.url'].endsWith('splunk-black.svg') 
-        && span.tags['component'] === 'splunk-post-doc-load-resource'
+      span => span.tags['http.url'] && span.tags['http.url'].endsWith('kloudmate-black.svg') 
+        && span.tags['component'] === 'kloudmate-post-doc-load-resource'
     );
     await browser.assert.ok(plImageRootSpan);
     await browser.assert.ok(plImageParentSpan);
@@ -170,14 +170,14 @@ module.exports = {
 
     const plScriptRootSpan = await browser.globals.getReceivedSpans().find(
       span => span.tags['http.url'] && span.tags['http.url'].endsWith('test.js') 
-        && span.tags['component'] === 'splunk-post-doc-load-resource'
+        && span.tags['component'] === 'kloudmate-post-doc-load-resource'
     );
     const plScriptParentSpan = await browser.globals.getReceivedSpans().find(
       span => span.name === 'script-parent'
     );
     const plScriptChildSpan = await browser.globals.getReceivedSpans().find(
       span => span.tags['http.url'] && span.tags['http.url'].endsWith('test-alt.js') 
-        && span.tags['component'] === 'splunk-post-doc-load-resource'
+        && span.tags['component'] === 'kloudmate-post-doc-load-resource'
     );
     await browser.assert.ok(plScriptRootSpan);
     await browser.assert.ok(plScriptParentSpan);

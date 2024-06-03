@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ function TodoList() {
 
   useEffect(() => {
     async function fetchData() {
-      const tracer = window.SplunkRum.provider.getTracer('todoList');
+      const tracer = window.KloudmateRum.provider.getTracer('todoList');
       const span = tracer.startSpan('todoList.load', {
         attributes: {
           'workflow.id': 1,
@@ -58,7 +58,7 @@ function TodoList() {
   }, [token, setToken]);
 
   const addItem = useCallback(async (text) => {
-    const tracer = window.SplunkRum.provider.getTracer('todoList');
+    const tracer = window.KloudmateRum.provider.getTracer('todoList');
     const span = tracer.startSpan('todoList.addItem', {
       attributes: {
         'workflow.id': 2,

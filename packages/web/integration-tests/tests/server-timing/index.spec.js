@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -35,9 +35,9 @@ module.exports = {
 
     await browser.assert.strictEqual(docFetchSpan.tags['link.traceId'], expectedTraceId);
     await browser.assert.strictEqual(docFetchSpan.tags['location.href'], browser.globals.getUrl('/server-timing/index.ejs'));
-    await browser.assert.strictEqual(docFetchSpan.tags['app'], 'splunk-otel-js-dummy-app');
+    await browser.assert.strictEqual(docFetchSpan.tags['app'], 'kloudmate-otel-js-dummy-app');
     await browser.assert.strictEqual(docFetchSpan.tags['component'], 'document-load');
-    await browser.assert.strictEqual(docFetchSpan.tags['splunk.rumVersion'], browser.globals.rumVersion);
+    await browser.assert.strictEqual(docFetchSpan.tags['kloudmate.rumVersion'], browser.globals.rumVersion);
 
     await browser.globals.assertNoErrorSpans();
   },

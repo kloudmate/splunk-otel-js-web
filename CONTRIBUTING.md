@@ -7,7 +7,7 @@ requests to ensure we have all the necessary information to effectively respond
 to your bug report or contribution.
 
 In addition to this document, review our [Code of Conduct](CODE_OF_CONDUCT.md).
-For any code of conduct questions or comments, send an email to <oss@splunk.com>.
+For any code of conduct questions or comments, send an email to <oss@kloudmate.com>.
 
 ## Reporting Bugs/Feature Requests
 
@@ -33,17 +33,17 @@ See [SECURITY.md](SECURITY.md#reporting-security-issues) for instructions.
 
 ## Documentation
 
-The Splunk Observability documentation is hosted on the [Splunk Observability
-Cloud docs site](https://docs.splunk.com/Observability), which contains all the
-prescriptive guidance for Splunk Observability products. Prescriptive guidance
+The Kloudmate Observability documentation is hosted on the [Kloudmate Observability
+Cloud docs site](https://docs.kloudmate.com/Observability), which contains all the
+prescriptive guidance for Kloudmate Observability products. Prescriptive guidance
 consists of step-by-step instructions, conceptual material, and decision support
 for customers. Reference documentation and development documentation is still
 hosted on this repository.
 
 To contribute documentation for this project, open a pull request in the
-[public-o11y-docs](https://github.com/splunk/public-o11y-docs) repository. See
-the [CONTRIBUTING.md](https://github.com/splunk/public-o11y-docs/blob/main/CONTRIBUTING.md)
-guide of the Splunk Observability Cloud documentation for more information.
+[public-o11y-docs](https://github.com/kloudmate/public-o11y-docs) repository. See
+the [CONTRIBUTING.md](https://github.com/kloudmate/public-o11y-docs/blob/main/CONTRIBUTING.md)
+guide of the Kloudmate Observability Cloud documentation for more information.
 
 ## Contributing via Pull Requests
 
@@ -120,4 +120,4 @@ confirm the licensing of your contribution.
 
 ### Contributor License Agreement
 
-Before contributing, you must sign the [Splunk Contributor License Agreement (CLA)](https://www.splunk.com/en_us/form/contributions.html).
+Before contributing, you must sign the [Kloudmate Contributor License Agreement (CLA)](https://www.kloudmate.com/en_us/form/contributions.html).

@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Splunk Inc.
+Copyright 2024 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,11 +17,12 @@ limitations under the License.
 import { Attributes } from '@opentelemetry/api';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 
-export interface SplunkExporterConfig {
+export interface KloudmateExporterConfig {
   url: string;
   onAttributesSerializing?: (attributes: Attributes, span: ReadableSpan) => Attributes,
   xhrSender?: (url: string, data: string, headers?: Record<string, string>) => void,
   beaconSender?: (url: string, data: string, headers?: Record<string, string>) => void,
+  apiToken?: string;
 }
 
 export function NOOP_ATTRIBUTES_TRANSFORMER(attributes: Attributes): Attributes {

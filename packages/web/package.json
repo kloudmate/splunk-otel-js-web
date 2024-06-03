@@ -1,8 +1,8 @@
 {
-  "name": "@splunk/otel-web",
+  "name": "@kloudmate/otel-web",
   "version": "0.17.0",
-  "description": "Splunk distribution of Open Telemetry for browser environment.",
-  "repository": "github:signalfx/splunk-otel-js-browser",
+  "description": "Kloudmate distribution of Open Telemetry for browser environment.",
+  "repository": "github:signalfx/kloudmate-otel-js-browser",
   "scripts": {
     "start": "npm-run-all -s compile start:_execute",
     "start:_execute": "node utils/devServer/runDevServer.js",
@@ -27,7 +27,7 @@
     "test:integration:_selfSignCerts": "(cd utils && cd certs && openssl req -nodes -new -x509 -keyout server.key -out server.cert)",
     "test:performance": "node ./performance-tests/runner.js"
   },
-  "author": "Splunk Observability Instrumentals Team <ssg-observability-instrumentals-npm@splunk.com>",
+  "author": "Kloudmate Observability Instrumentals Team <ssg-observability-instrumentals-npm@kloudmate.com>",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -114,9 +114,9 @@
     "ws": "^8.13.0"
   },
   "bugs": {
-    "url": "https://github.com/signalfx/splunk-otel-js-web/issues"
+    "url": "https://github.com/signalfx/kloudmate-otel-js-web/issues"
   },
-  "homepage": "https://github.com/signalfx/splunk-otel-js-web#readme",
+  "homepage": "https://github.com/signalfx/kloudmate-otel-js-web#readme",
   "publishConfig": {
     "access": "public"
   }

@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Splunk Inc.
+Copyright 2023 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,41 +21,41 @@ const { render } = require('ejs');
 const SPLUNK_RUM_TAGS_TEMPLATE = `
 <script src="<%= file -%>"></script>
 <script>
-  window.SplunkRum && window.SplunkRum.init(<%- options -%>)
+  window.KloudmateRum && window.KloudmateRum.init(<%- options -%>)
 </script>
 `;
 
-const LIB_DISK_PATH = path.join(__dirname, '..', '..', 'dist', 'splunk-otel-web.js');
-const LIB_PATH = '/bundles/splunk-rum';
+const LIB_DISK_PATH = path.join(__dirname, '..', '..', 'dist', 'kloudmate-otel-web.js');
+const LIB_PATH = '/bundles/kloudmate-rum';
 
-async function handleSplunkRumRequest(app) {
+async function handleKloudmateRumRequest(app) {
   app.get(LIB_PATH, (_, res) => {
     res.set({
       'Content-Type': 'text/javascript',
     });
-    res.send(getSplunkRumContent());
+    res.send(getKloudmateRumContent());
   });
 }
 
-function generateSplunkRumTags () {
+function generateKloudmateRumTags () {
   const options = {
     beaconEndpoint: '/api/v2/spans',
-    applicationName: 'splunk-otel-js-dummy-app',
+    applicationName: 'kloudmate-otel-js-dummy-app',
     debug: false,
   };
 
   return render(SPLUNK_RUM_TAGS_TEMPLATE, {
-    file: '/dist/artifacts/splunk-otel-web.js',
+    file: '/dist/artifacts/kloudmate-otel-web.js',
     options: JSON.stringify(options),
   });
 }
 
-function getSplunkRumContent() {
+function getKloudmateRumContent() {
   return fs.readFileSync(LIB_DISK_PATH);
 }
 
 module.exports = {
-  handleSplunkRumRequest,
-  generateSplunkRumTags,
-  getSplunkRumContent,
+  handleKloudmateRumRequest,
+  generateKloudmateRumTags,
+  getKloudmateRumContent,
 };

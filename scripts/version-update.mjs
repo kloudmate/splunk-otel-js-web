@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ const packageJson = JSON.parse(readFileSync(packageJsonUrl));
 
 getPackageRoots().forEach(packagePath => {
   const content = `/*
-Copyright ${new Date().getFullYear()} Splunk Inc.
+Copyright ${new Date().getFullYear()} Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

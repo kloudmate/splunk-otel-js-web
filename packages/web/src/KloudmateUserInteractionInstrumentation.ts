@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ export const DEFAULT_AUTO_INSTRUMENTED_EVENT_NAMES = Object.keys(DEFAULT_AUTO_IN
 const ROUTING_INSTRUMENTATION_NAME = 'route';
 const ROUTING_INSTRUMENTATION_VERSION = '1';
 
-export interface SplunkUserInteractionInstrumentationConfig extends UserInteractionInstrumentationConfig {
+export interface KloudmateUserInteractionInstrumentationConfig extends UserInteractionInstrumentationConfig {
   events?: UserInteractionEventsConfig;
 }
 
@@ -68,11 +68,11 @@ type ExposedSuper = {
   _patchAddEventListener: () => ((original: EventTarget['addEventListener']) => EventTarget['addEventListener']);
 };
 
-export class SplunkUserInteractionInstrumentation extends UserInteractionInstrumentation {
+export class KloudmateUserInteractionInstrumentation extends UserInteractionInstrumentation {
   private _routingTracer: Tracer;
   private __hashChangeHandler: (ev: Event) => void;
 
-  constructor(config: SplunkUserInteractionInstrumentationConfig = {}) {
+  constructor(config: KloudmateUserInteractionInstrumentationConfig = {}) {
     // Prefer otel's eventNames property
     if (!config.eventNames) {
       const eventMap = Object.assign({}, DEFAULT_AUTO_INSTRUMENTED_EVENTS, config.events);

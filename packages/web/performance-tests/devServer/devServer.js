@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ const {
   generateReactBundleTags,
 } = require('./reactBundleProvider');
 const {
-  handleSplunkRumRequest, generateSplunkRumTags,
-} = require('./splunkRumProvider');
+  handleKloudmateRumRequest, generateKloudmateRumTags,
+} = require('./kloudmateRumProvider');
 const compression = require('compression');
 const { handleRandomImageRequest, generateRandomImageTags } = require('./randomImageProvider');
 const {
@@ -37,9 +37,9 @@ const { generateServerTiming, setServerTimingHeader } = require('../../test-util
 
 function getRumScript({ beaconHost, beaconPort }) {
   return `
-    <script src="https://${beaconHost}:${beaconPort}/dist/splunk-otel-web.js"></script>
+    <script src="https://${beaconHost}:${beaconPort}/dist/kloudmate-otel-web.js"></script>
     <script>
-      SplunkRum.init({"beaconEndpoint":"https://${beaconHost}:${beaconPort}/api/v2/spans", applicationName:"perf-test-app", debug:true});
+      KloudmateRum.init({"beaconEndpoint":"https://${beaconHost}:${beaconPort}/api/v2/spans", applicationName:"perf-test-app", debug:true});
     </script>
   `;
 }
@@ -102,7 +102,7 @@ async function run({ onSpanReceived, enableHttps, port }) {
   app.use(compression());
 
   handleReactBundleRequest(app);
-  handleSplunkRumRequest(app);
+  handleKloudmateRumRequest(app);
   handleRandomImageRequest(app);
 
   app.get('/', function(req, res) {
@@ -112,11 +112,11 @@ async function run({ onSpanReceived, enableHttps, port }) {
     const bodyBottomContents = [];
 
     if (req.query.rumHead === 'true') {
-      headContents.push(generateSplunkRumTags());
+      headContents.push(generateKloudmateRumTags());
     } else if (req.query.rumBottom === 'true') {
-      bodyBottomContents.push(generateSplunkRumTags());
+      bodyBottomContents.push(generateKloudmateRumTags());
     } else if (req.query.rumHead !== 'false') {
-      headContents.push(generateSplunkRumTags());
+      headContents.push(generateKloudmateRumTags());
     }
 
     bodyBottomContents.push(generateReactBundleTags());

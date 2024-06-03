@@ -1,5 +1,5 @@
 /*
-Copyright 2022 Splunk Inc.
+Copyright 2022 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 import * as assert from 'assert';
 import { deinit, initWithDefaultConfig, SpanCapturer } from './utils';
 import { io } from 'socket.io-client';
-import { SplunkOtelWebConfig } from '../src';
+import { KloudmateOtelWebConfig } from '../src';
 import { SpanKind } from '@opentelemetry/api';
 
 describe('can produce websocket events', () => {
@@ -31,7 +31,7 @@ describe('can produce websocket events', () => {
           target: io
         }
       }
-    } as Partial<SplunkOtelWebConfig>);
+    } as Partial<KloudmateOtelWebConfig>);
   });
   afterEach(() => {
     deinit();
@@ -115,7 +115,7 @@ describe('window global io', () => {
       instrumentations: {
         socketio: true
       }
-    } as Partial<SplunkOtelWebConfig>);
+    } as Partial<KloudmateOtelWebConfig>);
   });
   afterEach(() => {
     deinit();
@@ -149,7 +149,7 @@ describe('window global io (loaded after init)', () => {
       instrumentations: {
         socketio: true
       }
-    } as Partial<SplunkOtelWebConfig>);
+    } as Partial<KloudmateOtelWebConfig>);
     // @ts-expect-error io isn't standard window prop
     window.io = io;
   });

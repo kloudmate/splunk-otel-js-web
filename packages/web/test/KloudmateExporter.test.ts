@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import { expect } from 'chai';
 
 import * as api from '@opentelemetry/api';
 import { timeInputToHrTime } from '@opentelemetry/core';
-import { SplunkZipkinExporter } from '../src/exporters/zipkin';
+import { KloudmateZipkinExporter } from '../src/exporters/zipkin';
 import { RateLimitProcessor } from '../src/exporters/rate-limit';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 
@@ -44,7 +44,7 @@ function buildDummySpan({
   } as ReadableSpan;
 }
 
-describe('SplunkZipkinExporter', () => {
+describe('KloudmateZipkinExporter', () => {
   let beaconSenderMock;
   let xhrSenderMock;
   let exporter;
@@ -60,7 +60,7 @@ describe('SplunkZipkinExporter', () => {
   });
 
   it('uses Beacon API if in background', () => {
-    exporter = new SplunkZipkinExporter({
+    exporter = new KloudmateZipkinExporter({
       url: 'https://domain1',
       xhrSender: xhrSenderMock,
     });
@@ -88,7 +88,7 @@ describe('SplunkZipkinExporter', () => {
   });
 
   it('uses XHR if Beacon API is unavailable', () => {
-    exporter = new SplunkZipkinExporter({
+    exporter = new KloudmateZipkinExporter({
       url: 'https://domain2',
       beaconSender: null,
       xhrSender: xhrSenderMock,
@@ -105,7 +105,7 @@ describe('SplunkZipkinExporter', () => {
   });
 
   it('truncates long values', () => {
-    exporter = new SplunkZipkinExporter({
+    exporter = new KloudmateZipkinExporter({
       url: 'https://localhost',
       xhrSender: xhrSenderMock,
     });
@@ -126,7 +126,7 @@ describe('SplunkZipkinExporter', () => {
   });
 
   it('filters out missing cors timings', () => {
-    exporter = new SplunkZipkinExporter({
+    exporter = new KloudmateZipkinExporter({
       url: 'https://localhost',
       xhrSender: xhrSenderMock,
     });
@@ -160,7 +160,7 @@ describe('SplunkZipkinExporter', () => {
   });
 
   it('allows hooking into serialization', () => {
-    exporter = new SplunkZipkinExporter({
+    exporter = new KloudmateZipkinExporter({
       url: 'https://localhost',
       xhrSender: xhrSenderMock,
       onAttributesSerializing: (attributes) => ({

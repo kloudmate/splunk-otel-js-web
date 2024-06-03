@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { getSplunkRumContent } = require('./splunkRumProvider');
+const { getKloudmateRumContent } = require('./kloudmateRumProvider');
 
 const SimpleReactApp = `
 class Hello extends React.Component {
@@ -22,7 +22,7 @@ const REACT_DOM_LIB_URL = 'https://unpkg.com/react-dom@17/umd/react-dom.producti
 async function handleReactBundleRequest(app) {
   const reactPackage = await fetch(REACT_LIB_URL).then(response => response.text());
   const reactDomPackage = await fetch(REACT_DOM_LIB_URL).then(response => response.text());
-  const splunkRumPackage = getSplunkRumContent();
+  const kloudmateRumPackage = getKloudmateRumContent();
 
   app.get(REACT_BUNDLE_PATH, (_, res) => {
     res.set({
@@ -35,7 +35,7 @@ async function handleReactBundleRequest(app) {
     res.set({
       'Content-Type': 'text/javascript',
     });
-    res.send(reactPackage + reactDomPackage + SimpleReactApp + splunkRumPackage);
+    res.send(reactPackage + reactDomPackage + SimpleReactApp + kloudmateRumPackage);
   });
 };
 

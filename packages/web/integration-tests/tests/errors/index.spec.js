@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -132,12 +132,12 @@ module.exports = {
     };
     await browser.assert.strictEqual(tags['error.stack'], ERROR_STACK_MAP[browserName]);
   },
-  'SplunkRum.error': async function(browser) {
+  'KloudmateRum.error': async function(browser) {
     const browserName = browser.options.desiredCapabilities.browserName.toLowerCase();
-    const url = browser.globals.getUrl('/errors/views/splunkrum-error.ejs');
+    const url = browser.globals.getUrl('/errors/views/kloudmaterum-error.ejs');
     await browser.url(url);
 
-    const errorSpan = await browser.globals.findSpan(s => s.name === 'SplunkRum.error');
+    const errorSpan = await browser.globals.findSpan(s => s.name === 'KloudmateRum.error');
     await browser.assert.ok(!!errorSpan, 'Checking presence of error span.');
 
     const tags = errorSpan.tags;

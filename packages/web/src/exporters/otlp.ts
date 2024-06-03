@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Splunk Inc.
+Copyright 2024 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,18 +16,20 @@ limitations under the License.
 
 import { diag } from '@opentelemetry/api';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
-import { NOOP_ATTRIBUTES_TRANSFORMER, NATIVE_XHR_SENDER, NATIVE_BEACON_SENDER, SplunkExporterConfig } from './common';
+import { NOOP_ATTRIBUTES_TRANSFORMER, NATIVE_XHR_SENDER, NATIVE_BEACON_SENDER, KloudmateExporterConfig } from './common';
 import { IExportTraceServiceRequest } from '@opentelemetry/otlp-transformer';
 import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 
-export class SplunkOTLPTraceExporter extends OTLPTraceExporter {
-  protected readonly _onAttributesSerializing: SplunkExporterConfig['onAttributesSerializing'];
-  protected readonly _xhrSender: SplunkExporterConfig['xhrSender'] = NATIVE_XHR_SENDER;
-  protected readonly _beaconSender: SplunkExporterConfig['beaconSender'] = typeof navigator !== 'undefined' && navigator.sendBeacon ? NATIVE_BEACON_SENDER : undefined;
+export class KloudmateOTLPTraceExporter extends OTLPTraceExporter {
+  protected readonly _onAttributesSerializing: KloudmateExporterConfig['onAttributesSerializing'];
+  protected readonly _xhrSender: KloudmateExporterConfig['xhrSender'] = NATIVE_XHR_SENDER;
+  protected readonly _beaconSender: KloudmateExporterConfig['beaconSender'] = typeof navigator !== 'undefined' && navigator.sendBeacon ? NATIVE_BEACON_SENDER : undefined;
+  private readonly apiToken: string;
 
-  constructor(options: SplunkExporterConfig) {
+  constructor(options: KloudmateExporterConfig) {
     super(options);
     this._onAttributesSerializing = options.onAttributesSerializing || NOOP_ATTRIBUTES_TRANSFORMER;
+    this.apiToken = options.apiToken as string;
   }
 
   convert(spans: ReadableSpan[]): IExportTraceServiceRequest {
@@ -61,7 +63,8 @@ export class SplunkOTLPTraceExporter extends OTLPTraceExporter {
         // need to test with actual ingest
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        ...this.headers
+        Authorization: this.apiToken,
+        ...this.headers,
       });
     }
 

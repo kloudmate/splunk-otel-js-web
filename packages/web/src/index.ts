@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,69 +28,69 @@ import {
 } from '@opentelemetry/sdk-trace-base';
 import { WebTracerConfig } from '@opentelemetry/sdk-trace-web';
 import { Attributes, diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
-import { SplunkDocumentLoadInstrumentation } from './SplunkDocumentLoadInstrumentation';
-import { SplunkXhrPlugin } from './SplunkXhrPlugin';
-import { SplunkFetchInstrumentation } from './SplunkFetchInstrumentation';
+import { KloudmateDocumentLoadInstrumentation } from './KloudmateDocumentLoadInstrumentation';
+import { KloudmateXhrPlugin } from './KloudmateXhrPlugin';
+import { KloudmateFetchInstrumentation } from './KloudmateFetchInstrumentation';
 import {
-  SplunkUserInteractionInstrumentation,
-  SplunkUserInteractionInstrumentationConfig,
+  KloudmateUserInteractionInstrumentation,
+  KloudmateUserInteractionInstrumentationConfig,
   DEFAULT_AUTO_INSTRUMENTED_EVENTS,
   DEFAULT_AUTO_INSTRUMENTED_EVENT_NAMES,
   UserInteractionEventsConfig,
-} from './SplunkUserInteractionInstrumentation';
-import { SplunkExporterConfig } from './exporters/common';
-import { SplunkZipkinExporter } from './exporters/zipkin';
-import { ERROR_INSTRUMENTATION_NAME, SplunkErrorInstrumentation } from './SplunkErrorInstrumentation';
+} from './KloudmateUserInteractionInstrumentation';
+import { KloudmateExporterConfig } from './exporters/common';
+import { KloudmateZipkinExporter } from './exporters/zipkin';
+import { ERROR_INSTRUMENTATION_NAME, KloudmateErrorInstrumentation } from './KloudmateErrorInstrumentation';
 import { generateId, getPluginConfig, registerGlobal } from './utils';
 import { getRumSessionId, initSessionTracking, SessionIdType } from './session';
-import { SplunkWebSocketInstrumentation } from './SplunkWebSocketInstrumentation';
+import { KloudmateWebSocketInstrumentation } from './KloudmateWebSocketInstrumentation';
 import { initWebVitals } from './webvitals';
-import { SplunkLongTaskInstrumentation } from './SplunkLongTaskInstrumentation';
-import { SplunkPageVisibilityInstrumentation } from './SplunkPageVisibilityInstrumentation';
-import { SplunkConnectivityInstrumentation } from './SplunkConnectivityInstrumentation';
+import { KloudmateLongTaskInstrumentation } from './KloudmateLongTaskInstrumentation';
+import { KloudmatePageVisibilityInstrumentation } from './KloudmatePageVisibilityInstrumentation';
+import { KloudmateConnectivityInstrumentation } from './KloudmateConnectivityInstrumentation';
 import {
-  SplunkPostDocLoadResourceInstrumentation,
-  SplunkPostDocLoadResourceInstrumentationConfig,
-} from './SplunkPostDocLoadResourceInstrumentation';
-import { SplunkWebTracerProvider } from './SplunkWebTracerProvider';
+  KloudmatePostDocLoadResourceInstrumentation,
+  KloudmatePostDocLoadResourceInstrumentationConfig,
+} from './KloudmatePostDocLoadResourceInstrumentation';
+import { KloudmateWebTracerProvider } from './KloudmateWebTracerProvider';
 import { FetchInstrumentationConfig } from '@opentelemetry/instrumentation-fetch';
 import { XMLHttpRequestInstrumentationConfig } from '@opentelemetry/instrumentation-xml-http-request';
 import {
   InternalEventTarget,
-  SplunkOtelWebEventTarget,
+  KloudmateOtelWebEventTarget,
 } from './EventTarget';
-import { ContextManagerConfig, SplunkContextManager } from './SplunkContextManager';
+import { ContextManagerConfig, KloudmateContextManager } from './KloudmateContextManager';
 import { Resource, ResourceAttributes } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { SDK_INFO, _globalThis } from '@opentelemetry/core';
 import { VERSION } from './version';
 import { getSyntheticsRunId, SYNTHETICS_RUN_ID_ATTRIBUTE } from './synthetics';
-import { SplunkSpanAttributesProcessor } from './SplunkSpanAttributesProcessor';
+import { KloudmateSpanAttributesProcessor } from './KloudmateSpanAttributesProcessor';
 import { SessionBasedSampler } from './SessionBasedSampler';
-import { SocketIoClientInstrumentationConfig, SplunkSocketIoClientInstrumentation } from './SplunkSocketIoClientInstrumentation';
-import { SplunkOTLPTraceExporter } from './exporters/otlp';
+import { SocketIoClientInstrumentationConfig, KloudmateSocketIoClientInstrumentation } from './KloudmateSocketIoClientInstrumentation';
+import { KloudmateOTLPTraceExporter } from './exporters/otlp';
 
-export { SplunkExporterConfig } from './exporters/common';
-export { SplunkZipkinExporter } from './exporters/zipkin';
-export * from './SplunkWebTracerProvider';
+export { KloudmateExporterConfig } from './exporters/common';
+export { KloudmateZipkinExporter } from './exporters/zipkin';
+export * from './KloudmateWebTracerProvider';
 export * from './SessionBasedSampler';
 
-interface SplunkOtelWebOptionsInstrumentations {
+interface KloudmateOtelWebOptionsInstrumentations {
   document?:     boolean | InstrumentationConfig;
   errors?:       boolean;
   fetch?:        boolean | FetchInstrumentationConfig;
-  interactions?: boolean | SplunkUserInteractionInstrumentationConfig;
+  interactions?: boolean | KloudmateUserInteractionInstrumentationConfig;
   longtask?:     boolean | InstrumentationConfig;
   visibility?:   boolean | InstrumentationConfig;
   connectivity?: boolean | InstrumentationConfig;
-  postload?:     boolean | SplunkPostDocLoadResourceInstrumentationConfig;
+  postload?:     boolean | KloudmatePostDocLoadResourceInstrumentationConfig;
   socketio?:     boolean | SocketIoClientInstrumentationConfig;
   websocket?:    boolean | InstrumentationConfig;
   webvitals?:    boolean;
   xhr?:          boolean | XMLHttpRequestInstrumentationConfig;
 }
 
-export interface SplunkOtelWebExporterOptions {
+export interface KloudmateOtelWebExporterOptions {
   /**
    * Allows remapping Span's attributes right before they're serialized.
    * One potential use case of this method is to remove PII from the attributes.
@@ -103,7 +103,7 @@ export interface SplunkOtelWebExporterOptions {
   otlp?: boolean;
 }
 
-export interface SplunkOtelWebConfig {
+export interface KloudmateOtelWebConfig {
   /** Allows http beacon urls */
   allowInsecureBeacon?: boolean;
 
@@ -150,7 +150,7 @@ export interface SplunkOtelWebConfig {
   version?: string;
 
   /** Allows configuring how telemetry data is sent to the backend */
-  exporter?: SplunkOtelWebExporterOptions;
+  exporter?: KloudmateOtelWebExporterOptions;
 
   /** Sets attributes added to every Span. */
   globalAttributes?: Attributes;
@@ -162,7 +162,7 @@ export interface SplunkOtelWebConfig {
   ignoreUrls?: Array<string | RegExp>;
 
   /** Configuration for instrumentation modules. */
-  instrumentations?: SplunkOtelWebOptionsInstrumentations;
+  instrumentations?: KloudmateOtelWebOptionsInstrumentations;
 
   /**
    * The name of your organization’s realm. Automatically configures beaconUrl with correct URL
@@ -188,22 +188,22 @@ export interface SplunkOtelWebConfig {
   tracer?: WebTracerConfig;
 }
 
-interface SplunkOtelWebConfigInternal extends SplunkOtelWebConfig {
+interface KloudmateOtelWebConfigInternal extends KloudmateOtelWebConfig {
   bufferSize?: number;
   bufferTimeout?: number;
 
-  exporter: SplunkOtelWebExporterOptions & {
-    factory: (config: SplunkExporterConfig & {otlp?: boolean}) => SpanExporter;
+  exporter: KloudmateOtelWebExporterOptions & {
+    factory: (config: KloudmateExporterConfig & {otlp?: boolean}) => SpanExporter;
   };
 
-  instrumentations: SplunkOtelWebOptionsInstrumentations;
+  instrumentations: KloudmateOtelWebOptionsInstrumentations;
 
   spanProcessor: {
     factory: <T extends BufferConfig> (exporter: SpanExporter, config: T) => SpanProcessor;
   };
 }
 
-const OPTIONS_DEFAULTS: SplunkOtelWebConfigInternal = {
+const OPTIONS_DEFAULTS: KloudmateOtelWebConfigInternal = {
   applicationName: 'unknown-browser-app',
   beaconEndpoint: undefined,
   bufferTimeout: 4000, //millis, tradeoff between batching and loss of spans by not sending before page close
@@ -212,9 +212,9 @@ const OPTIONS_DEFAULTS: SplunkOtelWebConfigInternal = {
   exporter: {
     factory: (options) => {
       if (options.otlp) {
-        return new SplunkOTLPTraceExporter(options);
+        return new KloudmateOTLPTraceExporter(options);
       }
-      return new SplunkZipkinExporter(options);
+      return new KloudmateZipkinExporter(options);
     },
   },
   spanProcessor: {
@@ -223,7 +223,7 @@ const OPTIONS_DEFAULTS: SplunkOtelWebConfigInternal = {
   rumAccessToken: undefined,
 };
 
-function migrateConfigOption(config: SplunkOtelWebConfig, from: keyof SplunkOtelWebConfig, to: keyof SplunkOtelWebConfig) {
+function migrateConfigOption(config: KloudmateOtelWebConfig, from: keyof KloudmateOtelWebConfig, to: keyof KloudmateOtelWebConfig) {
   if (from in config && !(to in config && config[to] !== OPTIONS_DEFAULTS[to])) {
     // @ts-expect-error There's no way to type this right
     config[to] = config[from];
@@ -233,7 +233,7 @@ function migrateConfigOption(config: SplunkOtelWebConfig, from: keyof SplunkOtel
 /**
  * Update configuration based on configuration option renames
  */
-function migrateConfig(config: SplunkOtelWebConfig) {
+function migrateConfig(config: KloudmateOtelWebConfig) {
   migrateConfigOption(config, 'app', 'applicationName');
   migrateConfigOption(config, 'beaconUrl', 'beaconEndpoint');
   migrateConfigOption(config, 'environment', 'deploymentEnvironment');
@@ -242,27 +242,27 @@ function migrateConfig(config: SplunkOtelWebConfig) {
 }
 
 const INSTRUMENTATIONS = [
-  { Instrument: SplunkDocumentLoadInstrumentation, confKey: 'document', disable: false },
-  { Instrument: SplunkXhrPlugin, confKey: 'xhr', disable: false },
-  { Instrument: SplunkUserInteractionInstrumentation, confKey: 'interactions', disable: false },
-  { Instrument: SplunkPostDocLoadResourceInstrumentation, confKey: 'postload', disable: false },
-  { Instrument: SplunkFetchInstrumentation, confKey: 'fetch', disable: false },
-  { Instrument: SplunkWebSocketInstrumentation, confKey: 'websocket', disable: true },
-  { Instrument: SplunkLongTaskInstrumentation, confKey: 'longtask', disable: false },
-  { Instrument: SplunkErrorInstrumentation, confKey: ERROR_INSTRUMENTATION_NAME, disable: false },
-  { Instrument: SplunkPageVisibilityInstrumentation, confKey: 'visibility', disable: true },
-  { Instrument: SplunkConnectivityInstrumentation, confKey: 'connectivity', disable: true },
-  { Instrument: SplunkSocketIoClientInstrumentation, confKey: 'socketio', disable: true },
+  { Instrument: KloudmateDocumentLoadInstrumentation, confKey: 'document', disable: false },
+  { Instrument: KloudmateXhrPlugin, confKey: 'xhr', disable: false },
+  { Instrument: KloudmateUserInteractionInstrumentation, confKey: 'interactions', disable: false },
+  { Instrument: KloudmatePostDocLoadResourceInstrumentation, confKey: 'postload', disable: false },
+  { Instrument: KloudmateFetchInstrumentation, confKey: 'fetch', disable: false },
+  { Instrument: KloudmateWebSocketInstrumentation, confKey: 'websocket', disable: true },
+  { Instrument: KloudmateLongTaskInstrumentation, confKey: 'longtask', disable: false },
+  { Instrument: KloudmateErrorInstrumentation, confKey: ERROR_INSTRUMENTATION_NAME, disable: false },
+  { Instrument: KloudmatePageVisibilityInstrumentation, confKey: 'visibility', disable: true },
+  { Instrument: KloudmateConnectivityInstrumentation, confKey: 'connectivity', disable: true },
+  { Instrument: KloudmateSocketIoClientInstrumentation, confKey: 'socketio', disable: true },
 ] as const;
 
-export const INSTRUMENTATIONS_ALL_DISABLED: SplunkOtelWebOptionsInstrumentations = INSTRUMENTATIONS
+export const INSTRUMENTATIONS_ALL_DISABLED: KloudmateOtelWebOptionsInstrumentations = INSTRUMENTATIONS
   .map(instrumentation => instrumentation.confKey)
   .reduce(
     (acc, key) => { acc[key] = false; return acc; },
     { 'webvitals': false },
   );
 
-function getBeaconEndpointForRealm(config: SplunkOtelWebConfigInternal) {
+function getBeaconEndpointForRealm(config: KloudmateOtelWebConfigInternal) {
   if (config.exporter?.otlp) {
     return `https://rum-ingest.${config.realm}.signalfx.com/v1/rumotlp`;
   }
@@ -270,32 +270,33 @@ function getBeaconEndpointForRealm(config: SplunkOtelWebConfigInternal) {
   return `https://rum-ingest.${config.realm}.signalfx.com/v1/rum`;
 }
 
-function buildExporter(options: SplunkOtelWebConfigInternal) {
-  const url = options.beaconEndpoint + (options.rumAccessToken ? '?auth='+options.rumAccessToken : '');
+function buildExporter(options: KloudmateOtelWebConfigInternal) {
+  const url = options.beaconEndpoint as string;
   return options.exporter.factory({
     url,
-    otlp: options.exporter.otlp,
+    otlp: true,
     onAttributesSerializing: options.exporter.onAttributesSerializing,
+    apiToken: options.rumAccessToken,
   });
 }
 
-export interface SplunkOtelWebType extends SplunkOtelWebEventTarget {
+export interface KloudmateOtelWebType extends KloudmateOtelWebEventTarget {
   readonly resource?: Resource;
 
   deinit: () => void;
 
   error: (...args: Array<any>) => void;
 
-  init: (options: SplunkOtelWebConfig) => void;
+  init: (options: KloudmateOtelWebConfig) => void;
 
   /**
    * Allows experimental options to be passed. No versioning guarantees are given for this method.
    */
-  _internalInit: (options: Partial<SplunkOtelWebConfigInternal>) => void;
+  _internalInit: (options: Partial<KloudmateOtelWebConfigInternal>) => void;
 
-  provider?: SplunkWebTracerProvider;
+  provider?: KloudmateWebTracerProvider;
 
-  attributesProcessor?: SplunkSpanAttributesProcessor;
+  attributesProcessor?: KloudmateSpanAttributesProcessor;
 
   setGlobalAttributes: (attributes: Attributes) => void;
 
@@ -331,10 +332,10 @@ export interface SplunkOtelWebType extends SplunkOtelWebEventTarget {
 let inited = false;
 let _deregisterInstrumentations: () => void | undefined;
 let _deinitSessionTracking: () => void | undefined;
-let _errorInstrumentation: SplunkErrorInstrumentation | undefined;
-let _postDocLoadInstrumentation: SplunkPostDocLoadResourceInstrumentation | undefined;
+let _errorInstrumentation: KloudmateErrorInstrumentation | undefined;
+let _postDocLoadInstrumentation: KloudmatePostDocLoadResourceInstrumentation | undefined;
 let eventTarget: InternalEventTarget | undefined;
-export const SplunkRum: SplunkOtelWebType = {
+export const KloudmateRum: KloudmateOtelWebType = {
   DEFAULT_AUTO_INSTRUMENTED_EVENTS,
   DEFAULT_AUTO_INSTRUMENTED_EVENT_NAMES,
 
@@ -348,8 +349,8 @@ export const SplunkRum: SplunkOtelWebType = {
     return inited;
   },
 
-  _internalInit: function (options: Partial<SplunkOtelWebConfigInternal>) {
-    SplunkRum.init({
+  _internalInit: function (options: Partial<KloudmateOtelWebConfigInternal>) {
+    KloudmateRum.init({
       ...OPTIONS_DEFAULTS,
       ...options,
     });
@@ -364,17 +365,17 @@ export const SplunkRum: SplunkOtelWebType = {
     diag.setLogger(new DiagConsoleLogger(), options?.debug ? DiagLogLevel.DEBUG : DiagLogLevel.WARN);
 
     if (typeof window !== 'object') {
-      diag.error('SplunkRum: Non-browser environment detected, aborting');
+      diag.error('KloudmateRum: Non-browser environment detected, aborting');
       return;
     }
     if (typeof Symbol !== 'function') {
-      diag.error('SplunkRum: browser not supported, disabling instrumentation.');
+      diag.error('KloudmateRum: browser not supported, disabling instrumentation.');
       return;
     }
 
     eventTarget = new InternalEventTarget();
 
-    const processedOptions: SplunkOtelWebConfigInternal = Object.assign(
+    const processedOptions: KloudmateOtelWebConfigInternal = Object.assign(
       {},
       OPTIONS_DEFAULTS,
       migrateConfig(options),
@@ -384,7 +385,7 @@ export const SplunkRum: SplunkOtelWebType = {
     );
 
     if (inited) {
-      diag.warn('SplunkRum already init()ed.');
+      diag.warn('KloudmateRum already init()ed.');
       return;
     }
 
@@ -392,13 +393,13 @@ export const SplunkRum: SplunkOtelWebType = {
       if (!processedOptions.beaconEndpoint) {
         processedOptions.beaconEndpoint = getBeaconEndpointForRealm(processedOptions);
       } else {
-        diag.warn('SplunkRum: Realm value ignored (beaconEndpoint has been specified)');
+        diag.warn('KloudmateRum: Realm value ignored (beaconEndpoint has been specified)');
       }
     }
 
     if (!processedOptions.debug) {
       if (!processedOptions.beaconEndpoint) {
-        throw new Error('SplunkRum.init( {beaconEndpoint: \'https://something\'} ) is required.');
+        throw new Error('KloudmateRum.init( {beaconEndpoint: \'https://something\'} ) is required.');
       } else if(!processedOptions.beaconEndpoint.startsWith('https') && !processedOptions.allowInsecureBeacon) {
         throw new Error('Not using https is unsafe, if you want to force it use allowInsecureBeacon option.');
       }
@@ -418,15 +419,19 @@ export const SplunkRum: SplunkOtelWebType = {
     // enabled: false prevents registerInstrumentations from enabling instrumentations in constructor
     // they will be enabled in registerInstrumentations
     const pluginDefaults = { ignoreUrls, enabled: false };
-
+    let userAgent = ""
+    if(window.navigator){
+      userAgent=window.navigator.userAgent
+    }
     const resourceAttrs: ResourceAttributes = {
       ...SDK_INFO,
-      [SemanticResourceAttributes.TELEMETRY_SDK_NAME]: '@splunk/otel-web',
+      [SemanticResourceAttributes.TELEMETRY_SDK_NAME]: '@kloudmate/otel-web',
       [SemanticResourceAttributes.TELEMETRY_SDK_VERSION]: VERSION,
-      // Splunk specific attributes
-      'splunk.rumVersion': VERSION,
-      'splunk.scriptInstance': instanceId,
+      // Kloudmate specific attributes
+      'kloudmate.rumVersion': VERSION,
+      'kloudmate.scriptInstance': instanceId,
       'app': applicationName,
+      'userAgent': userAgent
     };
 
     const syntheticsRunId = getSyntheticsRunId();
@@ -435,7 +440,7 @@ export const SplunkRum: SplunkOtelWebType = {
     }
     this.resource = new Resource(resourceAttrs);
 
-    const provider = new SplunkWebTracerProvider({
+    const provider = new KloudmateWebTracerProvider({
       ...processedOptions.tracer,
       resource: this.resource,
     });
@@ -445,10 +450,10 @@ export const SplunkRum: SplunkOtelWebType = {
       if (pluginConf) {
         // @ts-expect-error Can't mark in any way that processedOptions.instrumentations[confKey] is of specifc config type
         const instrumentation = new Instrument(pluginConf);
-        if (confKey === ERROR_INSTRUMENTATION_NAME && instrumentation instanceof SplunkErrorInstrumentation) {
+        if (confKey === ERROR_INSTRUMENTATION_NAME && instrumentation instanceof KloudmateErrorInstrumentation) {
           _errorInstrumentation = instrumentation;
         }
-        if (confKey === 'postload' && instrumentation instanceof SplunkPostDocLoadResourceInstrumentation) {
+        if (confKey === 'postload' && instrumentation instanceof KloudmatePostDocLoadResourceInstrumentation) {
           _postDocLoadInstrumentation = instrumentation;
         }
         return instrumentation;
@@ -457,7 +462,7 @@ export const SplunkRum: SplunkOtelWebType = {
       return null;
     }).filter((a): a is Exclude<typeof a, null> => Boolean(a));
 
-    this.attributesProcessor = new SplunkSpanAttributesProcessor({
+    this.attributesProcessor = new KloudmateSpanAttributesProcessor({
       ...deploymentEnvironment ? { environment: deploymentEnvironment, 'deployment.environment': deploymentEnvironment } : {},
       ...version ? { 'app.version': version } : {},
       ...processedOptions.globalAttributes || {},
@@ -486,7 +491,7 @@ export const SplunkRum: SplunkOtelWebType = {
     });
 
     provider.register({
-      contextManager: new SplunkContextManager({
+      contextManager: new KloudmateContextManager({
         ...processedOptions.context,
         onBeforeContextStart: () => _postDocLoadInstrumentation?.onBeforeContextChange(),
         onBeforeContextEnd: () => _postDocLoadInstrumentation?.onBeforeContextChange(),
@@ -507,8 +512,8 @@ export const SplunkRum: SplunkOtelWebType = {
     }
 
     inited = true;
-    registerGlobal('splunk.rum', this);
-    diag.info('SplunkRum.init() complete');
+    registerGlobal('kloudmate.rum', this);
+    diag.info('KloudmateRum.init() complete');
   },
 
   deinit() {
@@ -526,19 +531,19 @@ export const SplunkRum: SplunkOtelWebType = {
     delete this.provider;
     eventTarget = undefined;
     diag.disable();
-    registerGlobal('splunk.rum', undefined, true);
+    registerGlobal('kloudmate.rum', undefined, true);
 
     inited = false;
   },
 
-  setGlobalAttributes(this: SplunkOtelWebType, attributes?: Attributes) {
+  setGlobalAttributes(this: KloudmateOtelWebType, attributes?: Attributes) {
     this.attributesProcessor?.setGlobalAttributes(attributes);
     eventTarget?.emit('global-attributes-changed', {
       attributes: this.attributesProcessor?.getGlobalAttributes() || {},
     });
   },
 
-  getGlobalAttributes(this: SplunkOtelWebType) {
+  getGlobalAttributes(this: KloudmateOtelWebType) {
     return this.attributesProcessor?.getGlobalAttributes() || {};
   },
 
@@ -548,7 +553,7 @@ export const SplunkRum: SplunkOtelWebType = {
 
   error(...args) {
     if (!inited) {
-      diag.debug('SplunkRum not inited');
+      diag.debug('KloudmateRum not inited');
       return;
     }
     if (!_errorInstrumentation) {
@@ -556,7 +561,7 @@ export const SplunkRum: SplunkOtelWebType = {
       return;
     }
 
-    _errorInstrumentation.report('SplunkRum.error', args);
+    _errorInstrumentation.report('KloudmateRum.error', args);
   },
 
   addEventListener(name, callback): void {
@@ -583,4 +588,4 @@ export const SplunkRum: SplunkOtelWebType = {
   },
 };
 
-export default SplunkRum;
+export default KloudmateRum;

@@ -1,5 +1,5 @@
 /*
-Copyright 2022 Splunk Inc.
+Copyright 2022 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -100,7 +100,7 @@ export default class OTLPLogExporter {
           attributes: convertToAnyValue(this.config.getResourceAttributes() || {}).kvlistValue!.values,
         },
         scopeLogs: [{
-          scope: { name: 'splunk.rr-web', version: VERSION },
+          scope: { name: 'kloudmate.rr-web', version: VERSION },
           logRecords: logs.map(log => ({
             body: convertToAnyValue(log.body),
             timeUnixNano: log.timeUnixNano,

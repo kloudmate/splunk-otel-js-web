@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@ limitations under the License.
 import { InstrumentationBase, InstrumentationConfig } from '@opentelemetry/instrumentation';
 import { VERSION } from './version';
 
-const MODULE_NAME = 'splunk-visibility';
+const MODULE_NAME = 'kloudmate-visibility';
 
-export class SplunkPageVisibilityInstrumentation extends InstrumentationBase {
+export class KloudmatePageVisibilityInstrumentation extends InstrumentationBase {
   unloading: boolean;
   visibilityListener: any;
   unloadListener: any;

@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ import { InstrumentationBase, InstrumentationConfig } from '@opentelemetry/instr
 import { VERSION } from './version';
 
 const LONGTASK_PERFORMANCE_TYPE = 'longtask';
-const MODULE_NAME = 'splunk-longtask';
+const MODULE_NAME = 'kloudmate-longtask';
 
-export class SplunkLongTaskInstrumentation extends InstrumentationBase {
+export class KloudmateLongTaskInstrumentation extends InstrumentationBase {
   private _longtaskObserver: PerformanceObserver | undefined;
 
   constructor(config: InstrumentationConfig = {}) {

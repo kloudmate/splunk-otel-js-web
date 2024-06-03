@@ -15,9 +15,9 @@ export default [
   {
     input: 'src/indexBrowser.ts',
     output: {
-      file: 'dist/artifacts/splunk-otel-web.js',
+      file: 'dist/artifacts/kloudmate-otel-web.js',
       format: 'iife',
-      name: 'SplunkRum',
+      name: 'KloudmateRum',
       sourcemap: true,
     },
     plugins: [
@@ -37,9 +37,9 @@ export default [
   {
     input: 'src/indexBrowser.ts',
     output: {
-      file: 'dist/artifacts/splunk-otel-web-legacy.js',
+      file: 'dist/artifacts/kloudmate-otel-web-legacy.js',
       format: 'iife',
-      name: 'SplunkRum',
+      name: 'KloudmateRum',
       sourcemap: true,
     },
     plugins: [

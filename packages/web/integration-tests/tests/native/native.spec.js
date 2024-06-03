@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ module.exports = {
     const url = browser.globals.getUrl('/native/native.ejs');
     await browser.url(url);
 
-    const anySpan = await browser.globals.findSpan(span => span.tags['splunk.rumSessionId'] !== undefined);
+    const anySpan = await browser.globals.findSpan(span => span.tags['kloudmate.rumSessionId'] !== undefined);
 
     await browser.assert.ok(anySpan);
 
-    await browser.assert.strictEqual(anySpan.tags['splunk.rumSessionId'], '12341234123412341234123412341234');
+    await browser.assert.strictEqual(anySpan.tags['kloudmate.rumSessionId'], '12341234123412341234123412341234');
     await browser.globals.assertNoErrorSpans();
   }
 };

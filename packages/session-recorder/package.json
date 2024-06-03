@@ -1,8 +1,8 @@
 {
-  "name": "@splunk/otel-web-session-recorder",
+  "name": "@kloudmate/otel-web-session-recorder",
   "version": "0.17.0",
-  "description": "Splunk distribution of rrweb for recording session",
-  "repository": "github:signalfx/splunk-otel-js-browser",
+  "description": "Kloudmate distribution of rrweb for recording session",
+  "repository": "github:signalfx/kloudmate-otel-js-browser",
   "scripts": {
     "compile": "npm-run-all -s compile:*",
     "compile:browser": "rollup -c",
@@ -11,7 +11,7 @@
     "otlp:compile:pbjs": "pbjs -t json-module -w es6 -o src/LogsProto.js --force-number opentelemetry-proto/opentelemetry/proto/common/v1/common.proto opentelemetry-proto/opentelemetry/proto/resource/v1/resource.proto opentelemetry-proto/opentelemetry/proto/logs/v1/logs.proto",
     "otlp:compile:pbts": "pbjs -t static-module --force-number opentelemetry-proto/opentelemetry/proto/common/v1/common.proto opentelemetry-proto/opentelemetry/proto/resource/v1/resource.proto opentelemetry-proto/opentelemetry/proto/logs/v1/logs.proto | pbts -o src/LogsProto.d.ts -"
   },
-  "author": "Splunk Observability Instrumentals Team <ssg-observability-instrumentals-npm@splunk.com>",
+  "author": "Kloudmate Observability Instrumentals Team <ssg-observability-instrumentals-npm@kloudmate.com>",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.js",
   "browser": "dist/cjs/index.js",
@@ -41,7 +41,7 @@
     "type-fest": "^4.0.0"
   },
   "peerDependencies": {
-    "@splunk/otel-web": "^0.17.0"
+    "@kloudmate/otel-web": "^0.17.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.22.9",
@@ -59,9 +59,9 @@
     "rollup-plugin-polyfill-node": "^0.12.0"
   },
   "bugs": {
-    "url": "https://github.com/signalfx/splunk-otel-js-web/issues"
+    "url": "https://github.com/signalfx/kloudmate-otel-js-web/issues"
   },
-  "homepage": "https://github.com/signalfx/splunk-otel-js-web#readme",
+  "homepage": "https://github.com/signalfx/kloudmate-otel-js-web#readme",
   "publishConfig": {
     "access": "public"
   }

@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 import { expect } from 'chai';
 import { context, trace, SpanStatusCode } from '@opentelemetry/api';
 
-import SplunkOtelWeb, { INSTRUMENTATIONS_ALL_DISABLED } from '../src/index';
+import KloudmateOtelWeb, { INSTRUMENTATIONS_ALL_DISABLED } from '../src/index';
 import { SpanCapturer } from './utils';
 import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 
@@ -26,7 +26,7 @@ describe('Transitive API', () => {
   let spanCapturer = new SpanCapturer();
 
   beforeEach(() => {
-    SplunkOtelWeb.init({
+    KloudmateOtelWeb.init({
       applicationName: 'my-app',
       beaconEndpoint: 'https://localhost:9411/api/traces',
       rumAccessToken: 'xxx',
@@ -34,16 +34,16 @@ describe('Transitive API', () => {
     });
 
     spanCapturer = new SpanCapturer();
-    SplunkOtelWeb.provider?.addSpanProcessor(spanCapturer as any as SpanProcessor);
+    KloudmateOtelWeb.provider?.addSpanProcessor(spanCapturer as any as SpanProcessor);
   });
 
   afterEach(() => {
-    SplunkOtelWeb.deinit();
+    KloudmateOtelWeb.deinit();
   });
 
   describe('Tracer', () => {
     function subject() {
-      return SplunkOtelWeb.provider!.getTracer('test');
+      return KloudmateOtelWeb.provider!.getTracer('test');
     }
 
     it('should return a tracer', () => {
@@ -68,7 +68,7 @@ describe('Transitive API', () => {
   describe('Span', () => {
     const startTime = new Date(2021, 1, 1, 0, 0, 0, 0);
     function subject() {
-      return SplunkOtelWeb.provider!.getTracer('test').startSpan('test.span', { startTime });
+      return KloudmateOtelWeb.provider!.getTracer('test').startSpan('test.span', { startTime });
     }
 
     it('can set duration', () => {
@@ -115,7 +115,7 @@ describe('Transitive API', () => {
 
   describe('api.context', () => {
     it('can set span as active', () => {
-      const tracer = SplunkOtelWeb.provider.getTracer('test');
+      const tracer = KloudmateOtelWeb.provider.getTracer('test');
       const span = tracer.startSpan('test-span');
       context.with(trace.setSpan(context.active(), span), () => {
         expect(trace.getSpan(context.active())).to.eq(span);
@@ -123,7 +123,7 @@ describe('Transitive API', () => {
     });
 
     it('can create a child of an active span', () => {
-      const tracer = SplunkOtelWeb.provider.getTracer('test');
+      const tracer = KloudmateOtelWeb.provider.getTracer('test');
       const span = tracer.startSpan('test-span');
       context.with(trace.setSpan(context.active(), span), () => {
         tracer.startSpan('child-span').end();

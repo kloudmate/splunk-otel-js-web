@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>setTimeout</title>
 
-  <%- renderAgent({
-    context: {
-      async: true
-    }
-  }) %>
+  <%- renderAgent({ context: { async: true } }) %>
 </head>
+
 <body>
   <h1>setTimeout</h1>
 
@@ -20,17 +18,18 @@
     btn1.addEventListener('click', function () {
       window.testing = true;
       setTimeout(function () {
-        SplunkRum.provider.getTracer('default').startSpan('context-child').end();
+        KloudmateRum.provider.getTracer('default').startSpan('context-child').end();
         window.testing = false;
       }, 1);
     });
     btn2.addEventListener('click', function () {
       window.testing = true;
       setTimeout(function () {
-        SplunkRum.provider.getTracer('default').startSpan('context-child').end();
+        KloudmateRum.provider.getTracer('default').startSpan('context-child').end();
         window.testing = false;
       }, 35);
     });
   </script>
 </body>
+
 </html>

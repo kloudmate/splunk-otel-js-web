@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import {
 import { ExportResult, ExportResultCode } from '@opentelemetry/core';
 import { ReadableSpan, SpanExporter } from '@opentelemetry/sdk-trace-base';
 import { limitLen } from '../utils';
-import { NOOP_ATTRIBUTES_TRANSFORMER, NATIVE_XHR_SENDER, NATIVE_BEACON_SENDER, SplunkExporterConfig } from './common';
+import { NOOP_ATTRIBUTES_TRANSFORMER, NATIVE_XHR_SENDER, NATIVE_BEACON_SENDER, KloudmateExporterConfig } from './common';
 
 const MAX_VALUE_LIMIT = 4096;
 const SERVICE_NAME = 'browser';
@@ -62,32 +62,35 @@ export interface ZipkinSpan {
 }
 
 /**
- * SplunkExporter is based on Zipkin V2. It includes Splunk-specific modifications.
+ * KloudmateExporter is based on Zipkin V2. It includes Kloudmate-specific modifications.
  */
-export class SplunkZipkinExporter implements SpanExporter {
+export class KloudmateZipkinExporter implements SpanExporter {
   // TODO: a test which relies on beaconUrl needs to be fixed first
   public readonly beaconUrl: string;
-  private readonly _onAttributesSerializing: SplunkExporterConfig['onAttributesSerializing'];
-  private readonly _xhrSender: SplunkExporterConfig['xhrSender'];
-  private readonly _beaconSender: SplunkExporterConfig['beaconSender'];
+  private readonly _onAttributesSerializing: KloudmateExporterConfig['onAttributesSerializing'];
+  private readonly _xhrSender: KloudmateExporterConfig['xhrSender'];
+  private readonly _beaconSender: KloudmateExporterConfig['beaconSender'];
+  private readonly apiToken: string;
 
   constructor({
     url,
     onAttributesSerializing = NOOP_ATTRIBUTES_TRANSFORMER,
     xhrSender = NATIVE_XHR_SENDER,
     beaconSender = NATIVE_BEACON_SENDER,
-  }: SplunkExporterConfig) {
+    apiToken,
+  }: KloudmateExporterConfig) {
     this.beaconUrl = url;
     this._onAttributesSerializing = onAttributesSerializing;
     this._xhrSender = xhrSender;
     this._beaconSender = beaconSender;
+    this.apiToken = apiToken as string;
   }
 
   export(
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void
   ): void {
-    const zspans = spans.map(span => this._mapToZipkinSpan(span));
+    const zspans = spans.map((span) => this._mapToZipkinSpan(span));
     const zJson = JSON.stringify(zspans);
     if (document.hidden && this._beaconSender && zJson.length <= 64000) {
       this._beaconSender(this.beaconUrl, zJson);
@@ -95,6 +98,7 @@ export class SplunkZipkinExporter implements SpanExporter {
       this._xhrSender!(this.beaconUrl, zJson, {
         Accept: '*/*',
         'Content-Type': 'text/plain;charset=UTF-8',
+        Authorization: this.apiToken,
       });
     }
     resultCallback({ code: ExportResultCode.SUCCESS });

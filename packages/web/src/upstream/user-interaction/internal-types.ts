@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * Modifications: Copyright 2023 Splunk Inc.
+ * Modifications: Copyright 2023 Kloudmate Inc.
  * Removed dependencies from zone.js
  */
 

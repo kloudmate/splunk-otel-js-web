@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,16 +28,16 @@ function size(o) {
   return o.byteLength || o.size || o.length || undefined;
 }
 
-interface SplunkWebSocketInstrumentationConfig extends InstrumentationConfig {
+interface KloudmateWebSocketInstrumentationConfig extends InstrumentationConfig {
   ignoreUrls?: (string|RegExp)[];
 }
 
-export class SplunkWebSocketInstrumentation extends InstrumentationBase {
+export class KloudmateWebSocketInstrumentation extends InstrumentationBase {
   listener2ws2patched = new WeakMap();
-  protected _config: SplunkWebSocketInstrumentationConfig;
+  protected _config: KloudmateWebSocketInstrumentationConfig;
 
-  constructor(config: SplunkWebSocketInstrumentationConfig) {
-    super('splunk-websocket', VERSION, config);
+  constructor(config: KloudmateWebSocketInstrumentationConfig) {
+    super('kloudmate-websocket', VERSION, config);
     this._config = config;
   }
 

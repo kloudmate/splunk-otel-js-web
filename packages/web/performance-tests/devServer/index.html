@@ -1,14 +1,16 @@
 <html>
+
 <head>
-  <script src="/dist/splunk-otel-web.js"></script>
+  <script src="/dist/kloudmate-otel-web.js"></script>
   <script>
-    window.SplunkRum && window.SplunkRum.init({ 
-      beaconEndpoint: '/api/v2/spans', 
-      applicationName: 'splunk-otel-js-dummy-app',
+    window.KloudmateRum && window.KloudmateRum.init({
+      beaconEndpoint: '/api/v2/spans',
+      applicationName: 'kloudmate-otel-js-dummy-app',
       debug: true
     });
   </script>
 </head>
+
 <body>
   <p>Hi!</p>
   <script>
@@ -45,11 +47,11 @@
   </p>
 
   <script>
-    document.getElementById("route").addEventListener('click', function() {
+    document.getElementById("route").addEventListener('click', function () {
       history.pushState({}, 'title', '/thisIsArtificiallySet');
     });
-    document.getElementById("routeAfterFetch").addEventListener('click', function() {
-      fetch('page2.html').then(function(response) {
+    document.getElementById("routeAfterFetch").addEventListener('click', function () {
+      fetch('page2.html').then(function (response) {
         history.pushState({}, 'title', '/thisIsSetAfterFetch');
       });
     });
@@ -69,4 +71,5 @@
 
   <img src="./doesnotexist.jpg">
 </body>
+
 </html>

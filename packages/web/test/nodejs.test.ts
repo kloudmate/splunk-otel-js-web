@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Splunk Inc.
+Copyright 2023 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@ limitations under the License.
 */
 
 import 'mocha';
-import SplunkRum from '../src/index';
+import KloudmateRum from '../src/index';
 
 describe('Node.js basic support', () => {
   it('Can call init', () => {
-    SplunkRum.init({
+    KloudmateRum.init({
       applicationName: 'test-app',
       beaconEndpoint: 'https://localhost/events',
       rumAccessToken: 'example1234'
@@ -27,14 +27,14 @@ describe('Node.js basic support', () => {
   });
 
   it('Can call setGlobalAttributes', () => {
-    SplunkRum.setGlobalAttributes({ asd: 'asd' });
+    KloudmateRum.setGlobalAttributes({ asd: 'asd' });
   });
 
   it('Can call error', () => {
-    SplunkRum.error(new Error('Test error'));
+    KloudmateRum.error(new Error('Test error'));
   });
 
   it('Can call getSessionId()', () => {
-    SplunkRum.getSessionId();
+    KloudmateRum.getSessionId();
   });
 });
