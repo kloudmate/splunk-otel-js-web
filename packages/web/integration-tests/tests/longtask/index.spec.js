@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ module.exports = {
     if (browserIsCompatible(browser)) {
       const longtaskSpan = await browser.globals.findSpan(span => span.name === 'longtask');
       await browser.assert.ok(!!longtaskSpan, 'Checking longtask span presence.');
-      await browser.assert.strictEqual(longtaskSpan.tags['component'], 'splunk-longtask', 'component');
+      await browser.assert.strictEqual(longtaskSpan.tags['component'], 'kloudmate-longtask', 'component');
       // Edge can also report this with unknown value
       await browser.assert.strictEqual(['self', 'unknown'].includes(longtaskSpan.tags['longtask.name']), true, 'longtask.name');
       await browser.assert.strictEqual(longtaskSpan.tags['longtask.entry_type'], 'longtask', 'longtask.entry_type');

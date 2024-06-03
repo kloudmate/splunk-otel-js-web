@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,19 +26,19 @@ module.exports = {
     // This should create two streams of documentLoad sequences, all with the same sessionId but having
     // two scriptInstances (one from parent, one from iframe)
     const parent = await browser.globals.findSpan(span => span.name === 'documentFetch' && span.tags['location.href'].includes('cookies.ejs'));
-    await browser.assert.ok(parent.tags['splunk.rumSessionId']);
-    await browser.assert.notEqual(parent.tags['splunk.scriptInstance'], parent.tags['splunk.rumSessionId']);
+    await browser.assert.ok(parent.tags['kloudmate.rumSessionId']);
+    await browser.assert.notEqual(parent.tags['kloudmate.scriptInstance'], parent.tags['kloudmate.rumSessionId']);
 
     const iframe = await browser.globals.findSpan(span => span.name === 'documentFetch' && span.tags['location.href'].includes('iframe.ejs'));
-    await browser.assert.ok(iframe.tags['splunk.rumSessionId']);
-    await browser.assert.notEqual(iframe.tags['splunk.scriptInstance'], iframe.tags['splunk.rumSessionId']);
+    await browser.assert.ok(iframe.tags['kloudmate.rumSessionId']);
+    await browser.assert.notEqual(iframe.tags['kloudmate.scriptInstance'], iframe.tags['kloudmate.rumSessionId']);
 
     // same session id
-    await browser.assert.equal(parent.tags['splunk.rumSessionId'], iframe.tags['splunk.rumSessionId']);
+    await browser.assert.equal(parent.tags['kloudmate.rumSessionId'], iframe.tags['kloudmate.rumSessionId']);
     // but different scriptInstance
-    await browser.assert.notEqual(parent.tags['splunk.scriptInstance'], iframe.tags['splunk.scriptInstance']);
+    await browser.assert.notEqual(parent.tags['kloudmate.scriptInstance'], iframe.tags['kloudmate.scriptInstance']);
 
-    const cookie = await browser.getCookie('_splunk_rum_sid');
+    const cookie = await browser.getCookie('_kloudmate_rum_sid');
     await browser.assert.ok(cookie);
     // FIXME we previously tested that the cookie was marked SameSite=Strict but new session implementation
     // has a race between iframes and parents from the same domain.
@@ -49,8 +49,8 @@ module.exports = {
     await browser.url(browser.globals.getUrl('/cookies/cookies.iframe.ejs'));
 
     const fetchSpan = await browser.globals.findSpan(span => span.name === 'documentFetch' && span.tags.app === 'iframe');
-    await browser.assert.ok(fetchSpan.tags['splunk.rumSessionId']);
-    const cookie = await browser.getCookie('_splunk_rum_sid');
+    await browser.assert.ok(fetchSpan.tags['kloudmate.rumSessionId']);
+    const cookie = await browser.getCookie('_kloudmate_rum_sid');
     await browser.assert.ok(cookie);
     await browser.assert.ok(fetchSpan);
     if (!isBrowser(browser, 'internet explorer') && browser.globals.enableHttps) {
@@ -75,12 +75,12 @@ module.exports = {
     */
     const protocol = browser.globals.enableHttps ? 'https' : 'http';
     await browser.url(`${protocol}://127.0.0.1.nip.io:${browser.globals.httpPort}/cookies/cookies-domain.ejs`);
-    const cookie = await browser.getCookie('_splunk_rum_sid');
+    const cookie = await browser.getCookie('_kloudmate_rum_sid');
     await browser.assert.ok(cookie);
     
     await browser.url(`${protocol}://test.127.0.0.1.nip.io:${browser.globals.httpPort}/cookies/cookies-domain.ejs`);
 
-    const cookie2 = await browser.getCookie('_splunk_rum_sid');
+    const cookie2 = await browser.getCookie('_kloudmate_rum_sid');
     await browser.assert.strictEqual(cookie.domain, cookie2.domain);
     await browser.assert.strictEqual(cookie.value, cookie2.value);
 

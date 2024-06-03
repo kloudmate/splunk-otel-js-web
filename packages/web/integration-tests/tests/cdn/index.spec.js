@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -53,17 +53,17 @@ module.exports = {
     );
     await browser.assert.ok(
       !!rumScriptFetchSpan,
-      'Checking presence of splunk-otel-web fetch span.'
+      'Checking presence of kloudmate-otel-web fetch span.'
     );
 
     const cdnUrl =
-      'https://cdn.signalfx.com/o11y-gdi-rum/latest/splunk-otel-web.js';
+      'https://cdn.signalfx.com/o11y-gdi-rum/latest/kloudmate-otel-web.js';
     await browser.assert.strictEqual(
       rumScriptFetchSpan.tags['http.url'],
       cdnUrl
     );
     await browser.assert.strictEqual(
-      rumScriptFetchSpan.tags['splunk.rumVersion'],
+      rumScriptFetchSpan.tags['kloudmate.rumVersion'],
       '0.17.0'
     );
   },

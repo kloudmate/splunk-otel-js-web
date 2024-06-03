@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ module.exports = {
 
     await browser.assert.strictEqual(wsConnectionSpan.kind, 'CLIENT');
     await browser.assert.strictEqual(wsConnectionSpan.tags['location.href'], url);
-    await browser.assert.strictEqual(wsConnectionSpan.tags['app'], 'splunk-otel-js-dummy-app');
+    await browser.assert.strictEqual(wsConnectionSpan.tags['app'], 'kloudmate-otel-js-dummy-app');
     await browser.assert.strictEqual(wsConnectionSpan.tags['component'], 'websocket');
     await browser.assert.strictEqual(wsConnectionSpan.tags['error'], undefined);
 

@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 import { FetchInstrumentation, FetchInstrumentationConfig } from '@opentelemetry/instrumentation-fetch';
 import { captureTraceParent } from './servertiming';
 
-export class SplunkFetchInstrumentation extends FetchInstrumentation {
+export class KloudmateFetchInstrumentation extends FetchInstrumentation {
   constructor(config: FetchInstrumentationConfig = {}) {
     const origCustomAttrs = config.applyCustomAttributesOnSpan;
     config.applyCustomAttributesOnSpan = function (span, request, result) {

@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import { expect } from 'chai';
-import SplunkRum from '../src';
+import KloudmateRum from '../src';
 import { SYNTHETICS_RUN_ID_ATTRIBUTE } from '../src/synthetics';
 import { deinit, initWithSyncPipeline } from './utils';
 
@@ -24,7 +24,7 @@ describe('synthetics integration', () => {
     window.syntheticsRunId = '1234abcd'.repeat(4);
     const { getFinishedSpans, forceFlush } = initWithSyncPipeline();
 
-    SplunkRum.provider?.getTracer('test-tracer').startSpan('test-span').end();
+    KloudmateRum.provider?.getTracer('test-tracer').startSpan('test-span').end();
     await forceFlush();
 
     const spans = getFinishedSpans();
@@ -38,7 +38,7 @@ describe('synthetics integration', () => {
   it('does not set a tag unless synthetics is active', async () => {
     const { getFinishedSpans, forceFlush } = initWithSyncPipeline();
 
-    SplunkRum.provider?.getTracer('test-tracer').startSpan('test-span').end();
+    KloudmateRum.provider?.getTracer('test-tracer').startSpan('test-span').end();
     await forceFlush();
 
     const spans = getFinishedSpans();

@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import { MessagingDestinationKindValues, MessagingOperationValues, SemanticAttri
 import { waitForGlobal } from './utils';
 import { VERSION } from './version';
 
-const MODULE_NAME = 'splunk-socket.io-client';
+const MODULE_NAME = 'kloudmate-socket.io-client';
 
 /*
  * Subset of socket.IO parts we patch so we can avoid a hard dependency on
@@ -74,7 +74,7 @@ function seemsLikeSocketIoClient(io: unknown): io is SocketIOClient {
 // https://github.com/socketio/socket.io-client/blob/eaf782c41b9b92d4f39aa221a4166de4a30fb560/lib/socket.ts#L22
 const RESERVED_EVENTS = ['connect', 'connect_error', 'disconnect', 'disconnecting', 'newListener', 'removeListener'];
 
-export class SplunkSocketIoClientInstrumentation extends InstrumentationBase {
+export class KloudmateSocketIoClientInstrumentation extends InstrumentationBase {
   protected listeners = new WeakMap<(...args: unknown[]) => void, (...args: unknown[]) => void>();
 
   constructor(config: SocketIoClientInstrumentationConfig = {}) {

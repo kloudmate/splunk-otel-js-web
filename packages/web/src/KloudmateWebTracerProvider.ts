@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 import { propagation, context, trace } from '@opentelemetry/api';
 import { WebTracerProvider as BaseWebTracerProvider } from '@opentelemetry/sdk-trace-web';
 
-export class SplunkWebTracerProvider extends BaseWebTracerProvider {
+export class KloudmateWebTracerProvider extends BaseWebTracerProvider {
   shutdown(): Promise<void> {
     return new Promise<void>((resolve) => {
       // TODO: upstream

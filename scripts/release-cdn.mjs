@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,10 +23,10 @@ import fetch from 'node-fetch';
 import { request } from '@octokit/request';
 
 const OWNER = 'signalfx';
-const REPO = 'splunk-otel-js-web';
+const REPO = 'kloudmate-otel-js-web';
 const CDN_LISTED_FILES = [
-  'splunk-otel-web.js',
-  'splunk-otel-web-session-recorder.js'
+  'kloudmate-otel-web.js',
+  'kloudmate-otel-web-session-recorder.js'
 ];
 
 const isDryRun = process.argv.some(arg => arg === '--dry-run');

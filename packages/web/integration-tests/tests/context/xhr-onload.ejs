@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>XHR - events</title>
 
-  <%- renderAgent({
-    context: {
-      async: true
-    }
-  }) %>
+  <%- renderAgent({ context: { async: true } }) %>
 </head>
+
 <body>
   <h1>XHR - events</h1>
 
@@ -24,10 +22,11 @@
       req.send();
 
       req.onload = function () {
-        SplunkRum.provider.getTracer('default').startSpan('context-child').end();
+        KloudmateRum.provider.getTracer('default').startSpan('context-child').end();
         window.testing = false;
       };
     });
   </script>
 </body>
+
 </html>

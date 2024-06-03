@@ -1,5 +1,5 @@
 /*
-Copyright 2022 Splunk Inc.
+Copyright 2022 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import { VERSION } from './version';
 import { getGlobal } from './utils';
 
 import type { Resource } from '@opentelemetry/resources';
-import type { SplunkOtelWebType } from '@splunk/otel-web';
+import type { KloudmateOtelWebType } from '@kloudmate/otel-web';
 
 interface BasicTracerProvider extends TracerProvider {
   readonly resource: Resource;
@@ -30,7 +30,7 @@ interface BasicTracerProvider extends TracerProvider {
 
 type RRWebOptions = Parameters<typeof record>[0];
 
-export type SplunkRumRecorderConfig = RRWebOptions & {
+export type KloudmateRumRecorderConfig = RRWebOptions & {
   /** Destination for the captured data */
   beaconEndpoint?: string;
 
@@ -66,7 +66,7 @@ export type SplunkRumRecorderConfig = RRWebOptions & {
   debug?: boolean;
 };
 
-function migrateConfigOption(config: SplunkRumRecorderConfig, from: keyof SplunkRumRecorderConfig, to: keyof SplunkRumRecorderConfig) {
+function migrateConfigOption(config: KloudmateRumRecorderConfig, from: keyof KloudmateRumRecorderConfig, to: keyof KloudmateRumRecorderConfig) {
   if (from in config && !(to in config)) {
     // @ts-expect-error There's no way to type this right
     config[to] = config[from];
@@ -76,7 +76,7 @@ function migrateConfigOption(config: SplunkRumRecorderConfig, from: keyof Splunk
 /**
  * Update configuration based on configuration option renames
  */
-function migrateConfig(config: SplunkRumRecorderConfig) {
+function migrateConfig(config: KloudmateRumRecorderConfig) {
   migrateConfigOption(config, 'beaconUrl', 'beaconEndpoint');
   migrateConfigOption(config, 'rumAuth', 'rumAccessToken');
   return config;
@@ -96,12 +96,12 @@ let paused = false;
 let eventCounter = 1;
 let logCounter = 1;
 
-const SplunkRumRecorder = {
+const KloudmateRumRecorder = {
   get inited(): boolean {
     return Boolean(inited);
   },
 
-  init(config: SplunkRumRecorderConfig): void {
+  init(config: KloudmateRumRecorderConfig): void {
     if (inited) {
       return;
     }
@@ -111,23 +111,23 @@ const SplunkRumRecorder = {
       return;
     }
 
-    const SplunkRum = getGlobal<SplunkOtelWebType>('splunk.rum');
+    const KloudmateRum = getGlobal<KloudmateOtelWebType>('kloudmate.rum');
 
     let tracerProvider: BasicTracerProvider | ProxyTracerProvider = trace.getTracerProvider() as BasicTracerProvider;
     if (tracerProvider && 'getDelegate' in tracerProvider) {
       tracerProvider = (tracerProvider as unknown as ProxyTracerProvider).getDelegate() as BasicTracerProvider;
     }
-    if (!SplunkRum || !SplunkRum.resource) {
-      console.error('Splunk OTEL Web must be inited before session recorder.');
+    if (!KloudmateRum || !KloudmateRum.resource) {
+      console.error('Kloudmate OTEL Web must be inited before session recorder.');
       return;
     }
 
-    const resource = SplunkRum.resource;
+    const resource = KloudmateRum.resource;
 
     migrateConfig(config);
 
     const { apiToken, beaconEndpoint, debug, realm, rumAccessToken, ...rrwebConf } = config;
-    tracer = trace.getTracer('splunk.rr-web', VERSION);
+    tracer = trace.getTracer('kloudmate.rr-web', VERSION);
     const span = tracer.startSpan('record init');
 
     // Check if sampler is ignoring this
@@ -141,7 +141,7 @@ const SplunkRumRecorder = {
       if (!exportUrl) {
         exportUrl = `https://rum-ingest.${realm}.signalfx.com/v1/rumreplay`;
       } else {
-        console.warn('Splunk Session Recorder: Realm value ignored (beaconEndpoint has been specified)');
+        console.warn('Kloudmate Session Recorder: Realm value ignored (beaconEndpoint has been specified)');
       }
     }
 
@@ -162,13 +162,13 @@ const SplunkRumRecorder = {
       getResourceAttributes() {
         return {
           ...resource.attributes,
-          'splunk.rumSessionId': SplunkRum.getSessionId()!
+          'kloudmate.rumSessionId': KloudmateRum.getSessionId()!
         };
       }
     });
     const processor = new BatchLogProcessor(exporter, {});
 
-    lastKnownSession = SplunkRum.getSessionId() as string;
+    lastKnownSession = KloudmateRum.getSessionId() as string;
     sessionStartTime = Date.now();
 
     inited = record({
@@ -183,11 +183,11 @@ const SplunkRumRecorder = {
         // Safeguards from our ingest getting DDOSed:
         // 1. A session can send up to 4 hours of data
         // 2. Recording resumes on session change if it isn't a background tab (session regenerated in an another tab)
-        if (SplunkRum.getSessionId() !== lastKnownSession) {
+        if (KloudmateRum.getSessionId() !== lastKnownSession) {
           if (document.hidden) {
             return;
           }
-          lastKnownSession = SplunkRum.getSessionId() as string;
+          lastKnownSession = KloudmateRum.getSessionId() as string;
           sessionStartTime = Date.now();
           // reset counters
           eventCounter = 1;
@@ -261,4 +261,4 @@ const SplunkRumRecorder = {
   },
 };
 
-export default SplunkRumRecorder;
+export default KloudmateRumRecorder;

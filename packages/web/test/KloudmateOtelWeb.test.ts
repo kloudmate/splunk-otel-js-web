@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,17 +16,17 @@ limitations under the License.
 
 import { SpanAttributes } from '@opentelemetry/api';
 import { expect } from 'chai';
-import SplunkRum from '../src';
+import KloudmateRum from '../src';
 import { updateSessionStatus } from '../src/session';
 
-describe('SplunkOtelWeb', () => {
+describe('KloudmateOtelWeb', () => {
   afterEach(() => {
-    SplunkRum.deinit();
+    KloudmateRum.deinit();
   });
 
   describe('global attributes', () => {
     it('should be settable via constructor and then readable', () => {
-      SplunkRum.init({
+      KloudmateRum.init({
         applicationName: 'app-name',
         beaconEndpoint: 'https://beacon',
         rumAccessToken: '<token>',
@@ -34,13 +34,13 @@ describe('SplunkOtelWeb', () => {
           key1: 'value1',
         },
       });
-      expect(SplunkRum.getGlobalAttributes()).to.deep.eq({
+      expect(KloudmateRum.getGlobalAttributes()).to.deep.eq({
         key1: 'value1',
       });
     });
 
     it('should be patchable via setGlobalAttributes and then readable', () => {
-      SplunkRum.init({
+      KloudmateRum.init({
         applicationName: 'app-name',
         beaconEndpoint: 'https://beacon',
         rumAccessToken: '<token>',
@@ -50,12 +50,12 @@ describe('SplunkOtelWeb', () => {
         },
       });
 
-      SplunkRum.setGlobalAttributes({
+      KloudmateRum.setGlobalAttributes({
         key2: 'value2-changed',
         key3: 'value3',
       });
 
-      expect(SplunkRum.getGlobalAttributes()).to.deep.eq({
+      expect(KloudmateRum.getGlobalAttributes()).to.deep.eq({
         key1: 'value1',
         key2: 'value2-changed',
         key3: 'value3',
@@ -63,7 +63,7 @@ describe('SplunkOtelWeb', () => {
     });
 
     it('should notify about changes via setGlobalAttributes', async () => {
-      SplunkRum.init({
+      KloudmateRum.init({
         applicationName: 'app-name',
         beaconEndpoint: 'https://beacon',
         rumAccessToken: '<token>',
@@ -74,14 +74,14 @@ describe('SplunkOtelWeb', () => {
       });
 
       let receivedAttributes: SpanAttributes | undefined;
-      SplunkRum.addEventListener(
+      KloudmateRum.addEventListener(
         'global-attributes-changed',
         ({ payload }) => {
           receivedAttributes = payload.attributes;
         },
       );
 
-      SplunkRum.setGlobalAttributes({
+      KloudmateRum.setGlobalAttributes({
         key2: 'value2-changed',
         key3: 'value3',
       });
@@ -99,28 +99,28 @@ describe('SplunkOtelWeb', () => {
 
   describe('session ID', () => {
     it('should be readable', () => {
-      expect(SplunkRum.getSessionId()).to.eq(undefined);
+      expect(KloudmateRum.getSessionId()).to.eq(undefined);
 
-      SplunkRum.init({
+      KloudmateRum.init({
         applicationName: 'app-name',
         beaconEndpoint: 'https://beacon',
         rumAccessToken: '<token>'
       });
-      expect(SplunkRum.getSessionId()).to.match(/[0-9a-f]{32}/);
+      expect(KloudmateRum.getSessionId()).to.match(/[0-9a-f]{32}/);
 
-      SplunkRum.deinit();
-      expect(SplunkRum.getSessionId()).to.eq(undefined);
+      KloudmateRum.deinit();
+      expect(KloudmateRum.getSessionId()).to.eq(undefined);
     });
 
     it('should produce notifications when updated', async () => {
       let sessionId: string | undefined;
 
-      SplunkRum.init({
+      KloudmateRum.init({
         applicationName: 'app-name',
         beaconEndpoint: 'https://beacon',
         rumAccessToken: '<token>'
       });
-      SplunkRum.addEventListener(
+      KloudmateRum.addEventListener(
         'session-changed',
         (ev) => { sessionId = ev.payload.sessionId; },
       );
@@ -137,17 +137,17 @@ describe('SplunkOtelWeb', () => {
 
   describe('.inited', () => {
     it('should follow lifecycle', () => {
-      expect(SplunkRum.inited).to.eq(false, 'Should be false in the beginning.');
+      expect(KloudmateRum.inited).to.eq(false, 'Should be false in the beginning.');
 
-      SplunkRum.init({
+      KloudmateRum.init({
         applicationName: 'app-name',
         beaconEndpoint: 'https://beacon',
         rumAccessToken: '<token>'
       });
-      expect(SplunkRum.inited).to.eq(true, 'Should be true after creating.');
+      expect(KloudmateRum.inited).to.eq(true, 'Should be true after creating.');
 
-      SplunkRum.deinit();
-      expect(SplunkRum.inited).to.eq(false, 'Should be false after destroying.');
+      KloudmateRum.deinit();
+      expect(KloudmateRum.inited).to.eq(false, 'Should be false after destroying.');
     });
   });
 });

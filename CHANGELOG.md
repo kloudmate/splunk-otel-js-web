@@ -12,21 +12,21 @@ If the version of Open Telemetry is unspecified for a version, then it is the sa
 
 Changelog since v0.16.5:
 
-* `@splunk/otel-web`
-  * remove zone.js from user-interaction instrumentation ([#719](https://github.com/signalfx/splunk-otel-js-web/pull/719))
-  * Preprations for OTLP export support ([#745](https://github.com/signalfx/splunk-otel-js-web/pull/745))
-* `@splunk/otel-web-session-recorder`
-  * Internal changes in how data is shared with `@splunk/otel-web`  
-  **Note**: make sure that to use the same version of `@splunk/otel-web` and `@splunk/otel-web-session-recorder` libraries
+* `@kloudmate/otel-web`
+  * remove zone.js from user-interaction instrumentation ([#719](https://github.com/signalfx/kloudmate-otel-js-web/pull/719))
+  * Preprations for OTLP export support ([#745](https://github.com/signalfx/kloudmate-otel-js-web/pull/745))
+* `@kloudmate/otel-web-session-recorder`
+  * Internal changes in how data is shared with `@kloudmate/otel-web`  
+  **Note**: make sure that to use the same version of `@kloudmate/otel-web` and `@kloudmate/otel-web-session-recorder` libraries
 
 ## 0.17.0-beta.1
 
-* Fix folders being ignored while packing for npm ([#726](https://github.com/signalfx/splunk-otel-js-web/pull/726))
+* Fix folders being ignored while packing for npm ([#726](https://github.com/signalfx/kloudmate-otel-js-web/pull/726))
 
 ## 0.17.0-beta.0
 
-* `@splunk/otel-web`
-  * remove zone.js from user-interaction instrumentation ([#719](https://github.com/signalfx/splunk-otel-js-web/pull/719)) 
+* `@kloudmate/otel-web`
+  * remove zone.js from user-interaction instrumentation ([#719](https://github.com/signalfx/kloudmate-otel-js-web/pull/719)) 
 
 ## 0.16.5
 
@@ -34,15 +34,15 @@ Changelog since v0.16.5:
 | ------------------ | ------- | -------------------------- |
 | ^1.6.0             | ^1.17.0 | ^0.44.1 & compatible       |
 
-* `@splunk/otel-web-session-recorder`
-  * Update SessionRecorder type-definitions to match their use ([#684](https://github.com/signalfx/splunk-otel-js-web/pull/684))
+* `@kloudmate/otel-web-session-recorder`
+  * Update SessionRecorder type-definitions to match their use ([#684](https://github.com/signalfx/kloudmate-otel-js-web/pull/684))
 
 ## 0.16.4
 
-* `@splunk/otel-web`
-  * fix(socketio-instrumentation): use apply instead of call method when invoking the 'on' callback ([#652](https://github.com/signalfx/splunk-otel-js-web/pull/652))
-* `@splunk/otel-web-session-recorder`
-  * session recorder: add realm config option ([#646](https://github.com/signalfx/splunk-otel-js-web/pull/646))
+* `@kloudmate/otel-web`
+  * fix(socketio-instrumentation): use apply instead of call method when invoking the 'on' callback ([#652](https://github.com/signalfx/kloudmate-otel-js-web/pull/652))
+* `@kloudmate/otel-web-session-recorder`
+  * session recorder: add realm config option ([#646](https://github.com/signalfx/kloudmate-otel-js-web/pull/646))
 
 ## 0.16.3 (& 0.16.2)
 
@@ -50,14 +50,14 @@ Changelog since v0.16.5:
 | ------------------ | ------- | -------------------------- |
 | ^1.4.1             | ^1.15.1 | ^0.41.1 & compatible       |
 
-* `@splunk/otel-web`
-  * Filter inaccurate CORS timings in case of more precise timeOrigin ([#624](https://github.com/signalfx/splunk-otel-js-web/pull/624))
-* `@splunk/otel-web-session-recorder`
-  * Updated protobufjs to v7.2.4 to avoid warnings about CVE-2023-36665 ([#615](https://github.com/signalfx/splunk-otel-js-web/pull/615))
+* `@kloudmate/otel-web`
+  * Filter inaccurate CORS timings in case of more precise timeOrigin ([#624](https://github.com/signalfx/kloudmate-otel-js-web/pull/624))
+* `@kloudmate/otel-web-session-recorder`
+  * Updated protobufjs to v7.2.4 to avoid warnings about CVE-2023-36665 ([#615](https://github.com/signalfx/kloudmate-otel-js-web/pull/615))
 
 ## 0.16.1
 
-* Remove extranous time drift patches, preferring to use the ones released in otel ([#592](https://github.com/signalfx/splunk-otel-js-web/pull/592)) 
+* Remove extranous time drift patches, preferring to use the ones released in otel ([#592](https://github.com/signalfx/kloudmate-otel-js-web/pull/592)) 
 
 ## 0.16.0
 
@@ -77,7 +77,7 @@ Old | New
 While we'll keep the old keys working for near future it is recommended to change your init call to use the new keys:
 
 ```diff
-SplunkRum.init({
+KloudmateRum.init({
 -  beaconUrl: 'https://rum-ingest.<REALM>.signalfx.com/v1/rum',
 +  beaconEndpoint: 'https://rum-ingest.<REALM>.signalfx.com/v1/rum',
    // Alternatively you can now use the realm option:
@@ -94,7 +94,7 @@ SplunkRum.init({
 });
 ```
 
-* Renamed configuration options to match other Splunk RUM libraries & Splunk's GDI Specification
+* Renamed configuration options to match other Kloudmate RUM libraries & Kloudmate's GDI Specification
 * Added `realm` config option which can be used as shorthand instead of `beaconEndpoint`
 
 ## 0.15.3
@@ -103,7 +103,7 @@ SplunkRum.init({
 
 ## 0.15.2
 
-* Add extra saftey check for value in async context manager ([#572](https://github.com/signalfx/splunk-otel-js-web/pull/572))
+* Add extra saftey check for value in async context manager ([#572](https://github.com/signalfx/kloudmate-otel-js-web/pull/572))
 
 ## 0.15.1 (& 0.15.0 & 0.15.0-rc.0)
 
@@ -113,11 +113,11 @@ Changelog since last general release:
 | ------------------ | ------- | -------------------------- |
 | ^1.4.1             | ^1.12.0 | ^0.38.0 & compatible       |
 
-* Compatibility with importing in node (/ apps with SSR support) ([#557](https://github.com/signalfx/splunk-otel-js-web/pull/557))
-* Use XHR sender by default, increase throughput ([#537](https://github.com/signalfx/splunk-otel-js-web/pull/537))
-* Add web-vitals INP ([#548](https://github.com/signalfx/splunk-otel-js-web/pull/548))
-* Enable async context manager by default ([#539](https://github.com/signalfx/splunk-otel-js-web/pull/539))
-* Downgrade error when init is called multiple times to warning ([#526](https://github.com/signalfx/splunk-otel-js-web/pull/526))
+* Compatibility with importing in node (/ apps with SSR support) ([#557](https://github.com/signalfx/kloudmate-otel-js-web/pull/557))
+* Use XHR sender by default, increase throughput ([#537](https://github.com/signalfx/kloudmate-otel-js-web/pull/537))
+* Add web-vitals INP ([#548](https://github.com/signalfx/kloudmate-otel-js-web/pull/548))
+* Enable async context manager by default ([#539](https://github.com/signalfx/kloudmate-otel-js-web/pull/539))
+* Downgrade error when init is called multiple times to warning ([#526](https://github.com/signalfx/kloudmate-otel-js-web/pull/526))
 
 > 0.15.0 & 0.15.0-rc.0 were released under beta tag in npm, while 0.15.1 was released as latest version
 
@@ -129,19 +129,19 @@ Changelog since last general release:
 | ------------------ | ------ | -------------------------- |
 | ^1.3.0             | ^1.8.0 | ^0.34.0 & compatible       |
 
-* Don't count parent spans against 100 spans per component limit ([#493](https://github.com/signalfx/splunk-otel-js-web/pull/493))
-* Integrate otel's performance clock drift fix ([#498](https://github.com/signalfx/splunk-otel-js-web/pull/498))
+* Don't count parent spans against 100 spans per component limit ([#493](https://github.com/signalfx/kloudmate-otel-js-web/pull/493))
+* Integrate otel's performance clock drift fix ([#498](https://github.com/signalfx/kloudmate-otel-js-web/pull/498))
 * Session recorder package
 
 ## 0.14.0-rc.5
 
 * Session recorder:
-  * Updates to data transport ([#503](https://github.com/signalfx/splunk-otel-js-web/pull/503))
+  * Updates to data transport ([#503](https://github.com/signalfx/kloudmate-otel-js-web/pull/503))
 
 ## 0.14.0-rc.4
 
-* Don't count parent spans against 100 spans per component limit ([#493](https://github.com/signalfx/splunk-otel-js-web/pull/493))
-* Integrate otel's performance clock drift fix ([#498](https://github.com/signalfx/splunk-otel-js-web/pull/498))
+* Don't count parent spans against 100 spans per component limit ([#493](https://github.com/signalfx/kloudmate-otel-js-web/pull/493))
+* Integrate otel's performance clock drift fix ([#498](https://github.com/signalfx/kloudmate-otel-js-web/pull/498))
 
 ## 0.14.0-rc.3
 
@@ -157,39 +157,39 @@ Changelog since last general release:
 | ------------------ | ------ | -------------------------- |
 | ^1.2.0             | ^1.7.0 | ^0.33.0 & compatible       |
 
-* Updated versioning strategy to use caret version range ([#432](https://github.com/signalfx/splunk-otel-js-web/pull/432))  
+* Updated versioning strategy to use caret version range ([#432](https://github.com/signalfx/kloudmate-otel-js-web/pull/432))  
   This will reduce the amount of duplicate packages in NPM installations (which would lead to larger app bundle size) and improve compatibility with otel API package version used for custom instrumentations in applications
 
 ## 0.12.3 & 0.12.2
 
-* Fix errors caused by disabled postload instrumentation ([#433](https://github.com/signalfx/splunk-otel-js-web/pull/433))
+* Fix errors caused by disabled postload instrumentation ([#433](https://github.com/signalfx/kloudmate-otel-js-web/pull/433))
 
 ## 0.12.1
 
-* Add app version configuration option ([#419](https://github.com/signalfx/splunk-otel-js-web/pull/419))
-* Add http method to {document,resource}Fetch spans ([#424](https://github.com/signalfx/splunk-otel-js-web/pull/424))
-* Filter out invalid CORS network timings ([#422](https://github.com/signalfx/splunk-otel-js-web/pull/422))
+* Add app version configuration option ([#419](https://github.com/signalfx/kloudmate-otel-js-web/pull/419))
+* Add http method to {document,resource}Fetch spans ([#424](https://github.com/signalfx/kloudmate-otel-js-web/pull/424))
+* Filter out invalid CORS network timings ([#422](https://github.com/signalfx/kloudmate-otel-js-web/pull/422))
 
 ## 0.12.0
 
-* make SplunkPostDocLoadResourceInstrumentation aware of upstream context ([#398](https://github.com/signalfx/splunk-otel-js-web/pull/398))
-* Graduate experimental APIs ([#403](https://github.com/signalfx/splunk-otel-js-web/pull/403))
+* make KloudmatePostDocLoadResourceInstrumentation aware of upstream context ([#398](https://github.com/signalfx/kloudmate-otel-js-web/pull/398))
+* Graduate experimental APIs ([#403](https://github.com/signalfx/kloudmate-otel-js-web/pull/403))
 
 ## 0.11.4
 
-* add ignoreUrls config in docload instrumentation ([#392](https://github.com/signalfx/splunk-otel-js-web/pull/392))
+* add ignoreUrls config in docload instrumentation ([#392](https://github.com/signalfx/kloudmate-otel-js-web/pull/392))
 
 ## 0.11.3
 
-* Fix polyfilled fetch in IE ([#383](https://github.com/signalfx/splunk-otel-js-web/pull/383))
+* Fix polyfilled fetch in IE ([#383](https://github.com/signalfx/kloudmate-otel-js-web/pull/383))
 
 ## 0.11.2
 
-* Add extra check for IE compatibility in xhr instrumentation ([#380](https://github.com/signalfx/splunk-otel-js-web/pull/380))
+* Add extra check for IE compatibility in xhr instrumentation ([#380](https://github.com/signalfx/kloudmate-otel-js-web/pull/380))
 
 ## 0.11.1
 
-* Hotfix: Fix event listeners throwing when useCapture = null ([#374](https://github.com/signalfx/splunk-otel-js-web/pull/374))
+* Hotfix: Fix event listeners throwing when useCapture = null ([#374](https://github.com/signalfx/kloudmate-otel-js-web/pull/374))
 
 ## 0.11.0
 
@@ -207,11 +207,11 @@ Changelog since last general release:
 
 ## 0.10.2
 
-* Socket.io client instrumentation ([#304](https://github.com/signalfx/splunk-otel-js-web/pull/304))
+* Socket.io client instrumentation ([#304](https://github.com/signalfx/kloudmate-otel-js-web/pull/304))
 
 ## 0.10.1
 
-* Cleanup upstreamed patches & fix angular ([#291](https://github.com/signalfx/splunk-otel-js-web/pull/291))
+* Cleanup upstreamed patches & fix angular ([#291](https://github.com/signalfx/kloudmate-otel-js-web/pull/291))
 
 ## 0.10.0
 
@@ -219,17 +219,17 @@ Changelog since last general release:
 | ------------------ | ----- | -------------------------- |
 | 1.0.3              | 1.0.0 | 0.26.0                     |
 
-* Expose tracer config ([#287](https://github.com/signalfx/splunk-otel-js-web/pull/287))
-* Add session based sampler ([#287](https://github.com/signalfx/splunk-otel-js-web/pull/287))
+* Expose tracer config ([#287](https://github.com/signalfx/kloudmate-otel-js-web/pull/287))
+* Add session based sampler ([#287](https://github.com/signalfx/kloudmate-otel-js-web/pull/287))
 
 ## 0.9.3
 
-* Correct longtask span end for buffered spans ([#280](https://github.com/signalfx/splunk-otel-js-web/pull/280))
-* Move span attribute setting to spanprocessor / fix stack overflow bug ([#279](https://github.com/signalfx/splunk-otel-js-web/pull/279))
+* Correct longtask span end for buffered spans ([#280](https://github.com/signalfx/kloudmate-otel-js-web/pull/280))
+* Move span attribute setting to spanprocessor / fix stack overflow bug ([#279](https://github.com/signalfx/kloudmate-otel-js-web/pull/279))
 
 ## 0.9.2
 
-* Use SplunkRumNative.getNativeSessionId when present
+* Use KloudmateRumNative.getNativeSessionId when present
 
 ## 0.9.0 & 0.9.1
 
@@ -239,8 +239,8 @@ Changelog since last general release:
 
 Changes:
 
-* Update web-vitals library to 2.0.0 [#249](https://github.com/signalfx/splunk-otel-js-web/pull/249)
-* Handle undefined errors more gracefully [#255](https://github.com/signalfx/splunk-otel-js-web/pull/255)
+* Update web-vitals library to 2.0.0 [#249](https://github.com/signalfx/kloudmate-otel-js-web/pull/249)
+* Handle undefined errors more gracefully [#255](https://github.com/signalfx/kloudmate-otel-js-web/pull/255)
 
 (This version was re-released as v0.9.1 due to issues during release)
 
@@ -260,17 +260,17 @@ Changes:
 
 Changes:
 
-* Support for Splunk Synthetics [#217](https://github.com/signalfx/splunk-otel-js-web/pull/217)
-* Capturing visibility events [#219](https://github.com/signalfx/splunk-otel-js-web/pull/219)
-* Improve asynchronous context for hash-based routers [#224](https://github.com/signalfx/splunk-otel-js-web/pull/224)
-* Support both types of quotes on server-timings header values [#231](https://github.com/signalfx/splunk-otel-js-web/pull/231)
+* Support for Kloudmate Synthetics [#217](https://github.com/signalfx/kloudmate-otel-js-web/pull/217)
+* Capturing visibility events [#219](https://github.com/signalfx/kloudmate-otel-js-web/pull/219)
+* Improve asynchronous context for hash-based routers [#224](https://github.com/signalfx/kloudmate-otel-js-web/pull/224)
+* Support both types of quotes on server-timings header values [#231](https://github.com/signalfx/kloudmate-otel-js-web/pull/231)
 
 ## 0.7.1
 
 Changes:
 
-* Fix: Remove maximum queue size from BatchSpanProcessor [#213](https://github.com/signalfx/splunk-otel-js-web/pull/213)
-* Move common attributes to resource attributes [#212](https://github.com/signalfx/splunk-otel-js-web/pull/212)
+* Fix: Remove maximum queue size from BatchSpanProcessor [#213](https://github.com/signalfx/kloudmate-otel-js-web/pull/213)
+* Move common attributes to resource attributes [#212](https://github.com/signalfx/kloudmate-otel-js-web/pull/212)
 
 ## 0.7.0
 
@@ -287,7 +287,7 @@ Changes:
 Changes:
 
 * Upgrade OpenTelemetry packages to 0.21.0 - [See OpenTelemetry API changelog](https://github.com/open-telemetry/opentelemetry-js-api#0200-to-0210)
-* New `SplunkContextManager` for limited causality support in Promise-based, React, and Vue frameworks
+* New `KloudmateContextManager` for limited causality support in Promise-based, React, and Vue frameworks
 
 ## 0.5.1
 
@@ -342,7 +342,7 @@ Changes:
 
 ## 0.3.0-rc.1
 
-* New configuration format <https://github.com/signalfx/splunk-otel-js-web#all-configuration-options>
+* New configuration format <https://github.com/signalfx/kloudmate-otel-js-web#all-configuration-options>
 
 ## 0.2.0-rc.3
 

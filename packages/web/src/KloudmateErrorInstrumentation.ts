@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ function addStackIfUseful(span: Span, err: Error) {
 export const ERROR_INSTRUMENTATION_NAME = 'errors';
 export const ERROR_INSTRUMENTATION_VERSION = '1';
 
-export class SplunkErrorInstrumentation extends InstrumentationBase {
+export class KloudmateErrorInstrumentation extends InstrumentationBase {
   private readonly _consoleErrorHandler = (original: Console['error']) => {
     return (...args: any[]) => {
       this.report('console.error', args);

@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ limitations under the License.
 
 import { Attributes } from '@opentelemetry/api';
 
-export interface SplunkOtelWebEventTypes {
+export interface KloudmateOtelWebEventTypes {
   'session-changed': {
     sessionId: string
   };
@@ -25,25 +25,25 @@ export interface SplunkOtelWebEventTypes {
   }
 }
 
-type SplunkEventListener<type extends keyof SplunkOtelWebEventTypes> =
-  (event: {payload: SplunkOtelWebEventTypes[type]}) => void;
+type KloudmateEventListener<type extends keyof KloudmateOtelWebEventTypes> =
+  (event: {payload: KloudmateOtelWebEventTypes[type]}) => void;
 
 export class InternalEventTarget {
-  protected events: Partial<{[T in keyof SplunkOtelWebEventTypes]: SplunkEventListener<T>[]}> = {};
+  protected events: Partial<{[T in keyof KloudmateOtelWebEventTypes]: KloudmateEventListener<T>[]}> = {};
 
-  addEventListener<T extends keyof SplunkOtelWebEventTypes>(type: T, listener: SplunkEventListener<T>): void {
+  addEventListener<T extends keyof KloudmateOtelWebEventTypes>(type: T, listener: KloudmateEventListener<T>): void {
     if (!this.events[type]) {
       this.events[type] = [];
     }
-    (this.events[type] as SplunkEventListener<T>[]).push(listener);
+    (this.events[type] as KloudmateEventListener<T>[]).push(listener);
   }
 
-  removeEventListener<T extends keyof SplunkOtelWebEventTypes>(type: T, listener: SplunkEventListener<T>): void {
+  removeEventListener<T extends keyof KloudmateOtelWebEventTypes>(type: T, listener: KloudmateEventListener<T>): void {
     if (!this.events[type]) {
       return;
     }
 
-    const i = (this.events[type] as SplunkEventListener<T>[]).indexOf(listener);
+    const i = (this.events[type] as KloudmateEventListener<T>[]).indexOf(listener);
 
     if (i >= 0) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -51,7 +51,7 @@ export class InternalEventTarget {
     }
   }
 
-  emit<T extends keyof SplunkOtelWebEventTypes>(type: T, payload: SplunkOtelWebEventTypes[T]): void {
+  emit<T extends keyof KloudmateOtelWebEventTypes>(type: T, payload: KloudmateOtelWebEventTypes[T]): void {
     const listeners = this.events[type];
     if (!listeners) {
       return;
@@ -66,7 +66,7 @@ export class InternalEventTarget {
 
 
 
-export interface SplunkOtelWebEventTarget {
+export interface KloudmateOtelWebEventTarget {
   addEventListener: InternalEventTarget['addEventListener'];
   /**
    * @deprecated Use {@link addEventListener}

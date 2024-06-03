@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@ import './utils.test';
 import './session.test';
 import './websockets.test';
 import './SessionBasedSampler.test';
-import './SplunkExporter.test';
+import './KloudmateExporter.test';
 import './api.test';
-import './SplunkContextManager.test';
-import './SplunkSpanAttributesProcessor.test';
-import './SplunkOtelWeb.test';
+import './KloudmateContextManager.test';
+import './KloudmateSpanAttributesProcessor.test';
+import './KloudmateOtelWeb.test';
 import './synthetics.test';
 import './socketio.test';

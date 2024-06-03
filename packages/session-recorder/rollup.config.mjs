@@ -14,9 +14,9 @@ export default [
   {
     input: 'src/index.ts',
     output: {
-      file: 'dist/artifacts/splunk-otel-web-session-recorder.js',
+      file: 'dist/artifacts/kloudmate-otel-web-session-recorder.js',
       format: 'iife',
-      name: 'SplunkSessionRecorder',
+      name: 'KloudmateSessionRecorder',
       sourcemap: true,
     },
     plugins: [

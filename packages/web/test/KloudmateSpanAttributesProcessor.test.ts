@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@ limitations under the License.
 */
 
 import { expect } from 'chai';
-import { SplunkSpanAttributesProcessor } from '../src/SplunkSpanAttributesProcessor';
+import { KloudmateSpanAttributesProcessor } from '../src/KloudmateSpanAttributesProcessor';
 
-describe('SplunkSpanAttributesProcessor', () => {
+describe('KloudmateSpanAttributesProcessor', () => {
   describe('setting global attribute', () => {
     it('should set attributes via constructor', () => {
-      const processor = new SplunkSpanAttributesProcessor({
+      const processor = new KloudmateSpanAttributesProcessor({
         key1: 'value1',
       });
 
@@ -30,7 +30,7 @@ describe('SplunkSpanAttributesProcessor', () => {
     });
 
     it('should patch attributes via .setGlobalAttributes()', () => {
-      const processor = new SplunkSpanAttributesProcessor({
+      const processor = new KloudmateSpanAttributesProcessor({
         key1: 'value1',
         key2: 'value2',
       });

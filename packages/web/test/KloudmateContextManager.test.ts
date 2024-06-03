@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@ limitations under the License.
 import { context, trace } from '@opentelemetry/api';
 import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { expect } from 'chai';
-import SplunkOtelWeb, { INSTRUMENTATIONS_ALL_DISABLED } from '../src/index';
+import KloudmateOtelWeb, { INSTRUMENTATIONS_ALL_DISABLED } from '../src/index';
 import { SpanCapturer } from './utils';
 
 describe('async context propagation', () => {
   const capturer = new SpanCapturer();
   beforeEach(() => {
-    SplunkOtelWeb.init({
+    KloudmateOtelWeb.init({
       applicationName: 'my-app',
       beaconEndpoint: 'https://localhost:9411/api/traces',
       rumAccessToken: 'xxx',
@@ -33,15 +33,15 @@ describe('async context propagation', () => {
       instrumentations: INSTRUMENTATIONS_ALL_DISABLED,
     });
 
-    SplunkOtelWeb.provider?.addSpanProcessor(capturer as any as SpanProcessor);
+    KloudmateOtelWeb.provider?.addSpanProcessor(capturer as any as SpanProcessor);
   });
   afterEach(() => {
-    SplunkOtelWeb.deinit();
+    KloudmateOtelWeb.deinit();
     capturer.clear();
   });
 
   it('setTimeout', (done) => {
-    const tracer = SplunkOtelWeb.provider.getTracer('test');
+    const tracer = KloudmateOtelWeb.provider.getTracer('test');
     const span = tracer.startSpan('test-span');
     context.with(trace.setSpan(context.active(), span), () => {
       setTimeout(() => {
@@ -58,7 +58,7 @@ describe('async context propagation', () => {
   });
 
   it('Promise.then', (done) => {
-    const tracer = SplunkOtelWeb.provider.getTracer('test');
+    const tracer = KloudmateOtelWeb.provider.getTracer('test');
     const span = tracer.startSpan('test-span');
     context.with(trace.setSpan(context.active(), span), () => {
       Promise.resolve().then(() => {
@@ -75,7 +75,7 @@ describe('async context propagation', () => {
   });
 
   it('Promise.then - catch', (done) => {
-    const tracer = SplunkOtelWeb.provider.getTracer('test');
+    const tracer = KloudmateOtelWeb.provider.getTracer('test');
     const span = tracer.startSpan('test-span');
     context.with(trace.setSpan(context.active(), span), () => {
       Promise.reject().then(() => null, () => {
@@ -92,7 +92,7 @@ describe('async context propagation', () => {
   });
 
   it('Promise.catch', (done) => {
-    const tracer = SplunkOtelWeb.provider.getTracer('test');
+    const tracer = KloudmateOtelWeb.provider.getTracer('test');
     const span = tracer.startSpan('test-span');
     context.with(trace.setSpan(context.active(), span), () => {
       Promise.reject().catch(() => {
@@ -109,7 +109,7 @@ describe('async context propagation', () => {
   });
 
   it('mutation observer on chardata', (done) => {
-    const tracer = SplunkOtelWeb.provider.getTracer('test');
+    const tracer = KloudmateOtelWeb.provider.getTracer('test');
     const span = tracer.startSpan('test-span');
 
     const observer = new MutationObserver(function () {
@@ -135,7 +135,7 @@ describe('async context propagation', () => {
   });
 
   it('xhr event', (done) => {
-    const tracer = SplunkOtelWeb.provider.getTracer('test');
+    const tracer = KloudmateOtelWeb.provider.getTracer('test');
     const span = tracer.startSpan('test-span');
     context.with(trace.setSpan(context.active(), span), () => {
       const req = new XMLHttpRequest();
@@ -156,7 +156,7 @@ describe('async context propagation', () => {
   });
 
   it('xhr onevent', (done) => {
-    const tracer = SplunkOtelWeb.provider.getTracer('test');
+    const tracer = KloudmateOtelWeb.provider.getTracer('test');
     const span = tracer.startSpan('test-span');
     context.with(trace.setSpan(context.active(), span), () => {
       const req = new XMLHttpRequest();
@@ -177,7 +177,7 @@ describe('async context propagation', () => {
   });
 
   it('MessagePort', (done) => {
-    const tracer = SplunkOtelWeb.provider.getTracer('test');
+    const tracer = KloudmateOtelWeb.provider.getTracer('test');
     const span = tracer.startSpan('test-span');
 
     const channel = new MessageChannel();

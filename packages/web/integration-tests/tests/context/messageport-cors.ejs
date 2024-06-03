@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>MessagePort Iframe</title>
 
-  <%- renderAgent({
-    context: {
-      async: true
-    }
-  }) %>
+  <%- renderAgent({ context: { async: true } }) %>
 </head>
+
 <body>
   <h1>MessagePort Iframe</h1>
 
@@ -28,7 +26,7 @@
     iframe.addEventListener('load', function () {
       channel.port1.onmessage = function (event) {
         output.innerText += 'Port Message: ' + event.data;
-        SplunkRum.provider.getTracer('default').startSpan('message-event').end();
+        KloudmateRum.provider.getTracer('default').startSpan('message-event').end();
         window.testing = false;
       }
 
@@ -37,4 +35,5 @@
 
   </script>
 </body>
+
 </html>

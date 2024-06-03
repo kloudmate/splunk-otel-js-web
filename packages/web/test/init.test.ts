@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import * as assert from 'assert';
-import SplunkRum from '../src/index';
+import KloudmateRum from '../src/index';
 import { context, diag, trace } from '@opentelemetry/api';
 import * as tracing from '@opentelemetry/sdk-trace-base';
 import { deinit, initWithDefaultConfig, SpanCapturer } from './utils';
@@ -23,7 +23,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 function doesBeaconUrlEndWith(suffix) {
-  const sps = (SplunkRum.provider.getActiveSpanProcessor() as any)._spanProcessors;
+  const sps = (KloudmateRum.provider.getActiveSpanProcessor() as any)._spanProcessors;
   // TODO: refactor to make beaconUrl field private
   const beaconUrl = sps[1]._exporter.beaconUrl || sps[1]._exporter.url;
   assert.ok(beaconUrl.endsWith(suffix), `Checking beaconUrl if (${beaconUrl}) ends with ${suffix}`);
@@ -35,10 +35,10 @@ describe('test init', () => {
   describe('not specifying beaconUrl', () => {
     it('should not be inited', () => {
       try {
-        SplunkRum.init({ beaconEndpoint: undefined, applicationName: 'app', rumAccessToken: undefined });
+        KloudmateRum.init({ beaconEndpoint: undefined, applicationName: 'app', rumAccessToken: undefined });
         assert.ok(false, 'Initializer finished.'); // should not get here
       } catch (expected) {
-        assert.ok(SplunkRum.inited === false, 'SplunkRum should not be inited.');
+        assert.ok(KloudmateRum.inited === false, 'KloudmateRum should not be inited.');
       } finally {
         diag.disable();
       }
@@ -47,45 +47,45 @@ describe('test init', () => {
   describe('should enforce secure beacon url', () => {
     it('should not be inited with http', () => {
       try {
-        SplunkRum.init({ beaconEndpoint: 'http://127.0.0.1:8888/insecure', applicationName: 'app', rumAccessToken: undefined });
+        KloudmateRum.init({ beaconEndpoint: 'http://127.0.0.1:8888/insecure', applicationName: 'app', rumAccessToken: undefined });
         assert.ok(false);
       } catch(e) {
-        assert.ok(SplunkRum.inited === false);
+        assert.ok(KloudmateRum.inited === false);
       } finally {
         diag.disable();
       }
     });
     it('should init with https', () => {
       const path = '/secure';
-      SplunkRum.init({ beaconEndpoint: `https://127.0.0.1:8888/${path}`, applicationName: 'app', rumAccessToken: undefined });
-      assert.ok(SplunkRum.inited);
+      KloudmateRum.init({ beaconEndpoint: `https://127.0.0.1:8888/${path}`, applicationName: 'app', rumAccessToken: undefined });
+      assert.ok(KloudmateRum.inited);
       doesBeaconUrlEndWith(path);
-      SplunkRum.deinit();
+      KloudmateRum.deinit();
     });
     it('can be forced via allowInsecureBeacon option', () => {
       const path = '/insecure';
-      SplunkRum.init({
+      KloudmateRum.init({
         beaconEndpoint: `http://127.0.0.1:8888/${path}`,
         allowInsecureBeacon: true,
         applicationName: 'app',
         rumAccessToken: undefined,
       });
-      assert.ok(SplunkRum.inited);
+      assert.ok(KloudmateRum.inited);
       doesBeaconUrlEndWith(path);
-      SplunkRum.deinit();
+      KloudmateRum.deinit();
     });
     it('can use realm config option', () => {
-      SplunkRum.init({
+      KloudmateRum.init({
         realm: 'test',
         applicationName: 'app',
         rumAccessToken: undefined,
       });
-      assert.ok(SplunkRum.inited);
+      assert.ok(KloudmateRum.inited);
       doesBeaconUrlEndWith('https://rum-ingest.test.signalfx.com/v1/rum');
-      SplunkRum.deinit();
+      KloudmateRum.deinit();
     });
     it('can use realm + otlp config option', () => {
-      SplunkRum.init({
+      KloudmateRum.init({
         realm: 'test',
         applicationName: 'app',
         rumAccessToken: undefined,
@@ -93,14 +93,14 @@ describe('test init', () => {
           otlp: true,
         },
       });
-      assert.ok(SplunkRum.inited);
+      assert.ok(KloudmateRum.inited);
       doesBeaconUrlEndWith('https://rum-ingest.test.signalfx.com/v1/rumotlp');
-      SplunkRum.deinit();
+      KloudmateRum.deinit();
     });
   });
   describe('successful', () => {
     it('should have been inited properly with doc load spans', (done) => {
-      SplunkRum.init({
+      KloudmateRum.init({
         beaconEndpoint: 'https://127.0.0.1:9999/foo',
         applicationName: 'my-app',
         deploymentEnvironment: 'my-env',
@@ -110,8 +110,8 @@ describe('test init', () => {
         },
         rumAccessToken: undefined,
       });
-      assert.ok(SplunkRum.inited);
-      SplunkRum.provider.addSpanProcessor(capturer);
+      assert.ok(KloudmateRum.inited);
+      KloudmateRum.provider.addSpanProcessor(capturer);
       setTimeout(()=> {
         assert.ok(capturer.spans.length >= 3);
         const docLoadTraceId = capturer.spans.find(span => span.name === 'documentLoad')?.spanContext().traceId;
@@ -133,36 +133,36 @@ describe('test init', () => {
         const resourceFetchSpan = capturer.spans.find(span => span.name === 'resourceFetch');
         assert.ok(resourceFetchSpan, 'resourceFetch span presence.');
 
-        SplunkRum.deinit();
+        KloudmateRum.deinit();
         done();
       }, 1000);
     });
     it('is backwards compatible with 0.15.3 and earlier config options', () => {
-      SplunkRum.init({
+      KloudmateRum.init({
         beaconUrl: 'https://127.0.0.1:9999/foo',
         app: 'my-app',
         environment: 'my-env',
         rumAuth: 'test123',
       });
 
-      assert.ok(SplunkRum.inited);
+      assert.ok(KloudmateRum.inited);
       doesBeaconUrlEndWith('/foo?auth=test123');
-      SplunkRum.deinit();
+      KloudmateRum.deinit();
     });
   });
   describe('double-init has no effect', () => {
     it('should have been inited only once', () => {
-      SplunkRum.init({ beaconEndpoint: 'https://127.0.0.1:8888/foo', applicationName: 'app', rumAccessToken: undefined });
-      SplunkRum.init({ beaconEndpoint: 'https://127.0.0.1:8888/bar', applicationName: 'app', rumAccessToken: undefined });
+      KloudmateRum.init({ beaconEndpoint: 'https://127.0.0.1:8888/foo', applicationName: 'app', rumAccessToken: undefined });
+      KloudmateRum.init({ beaconEndpoint: 'https://127.0.0.1:8888/bar', applicationName: 'app', rumAccessToken: undefined });
       doesBeaconUrlEndWith('/foo');
-      SplunkRum.deinit();
+      KloudmateRum.deinit();
     });
   });
   describe('exporter option', () => {
     it ('allows setting factory', (done) => {
       const exportMock = sinon.fake();
       const onAttributesSerializingMock = sinon.fake();
-      SplunkRum._internalInit({
+      KloudmateRum._internalInit({
         beaconEndpoint: 'https://domain1',
         allowInsecureBeacon: true,
         applicationName: 'my-app',
@@ -181,10 +181,10 @@ describe('test init', () => {
         },
         rumAccessToken: '123-no-warn-spam-in-console',
       });
-      SplunkRum.provider.getTracer('test').startSpan('testSpan').end();
+      KloudmateRum.provider.getTracer('test').startSpan('testSpan').end();
       setTimeout(() => {
         expect(exportMock.called).to.eq(true);
-        SplunkRum.deinit();
+        KloudmateRum.deinit();
         done();
       });
     });
@@ -202,7 +202,7 @@ describe('creating spans is possible', () => {
 
   // FIXME figure out ways to validate zipkin 'export', sendBeacon, etc. etc.
   it('should have extra fields added', () => {
-    const tracer = SplunkRum.provider.getTracer('test');
+    const tracer = KloudmateRum.provider.getTracer('test');
     const span = tracer.startSpan('testSpan');
     context.with(trace.setSpan(context.active(), span), () => {
       assert.deepStrictEqual(trace.getSpan(context.active()), span);
@@ -214,13 +214,13 @@ describe('creating spans is possible', () => {
     assert.strictEqual(exposedSpan.attributes['environment'], 'my-env');
     assert.strictEqual(exposedSpan.attributes['app.version'], '1.2-test.3');
     assert.strictEqual(exposedSpan.attributes.customerType, 'GOLD');
-    assert.ok(exposedSpan.attributes['splunk.rumSessionId'], 'Checking splunk.rumSessionId');
+    assert.ok(exposedSpan.attributes['kloudmate.rumSessionId'], 'Checking kloudmate.rumSessionId');
     // Attributes set on resource that zipkin exporter merges to span tags
     assert.ok(exposedSpan.resource.attributes['telemetry.sdk.name'], 'Checking telemetry.sdk.name');
     assert.ok(exposedSpan.resource.attributes['telemetry.sdk.language'], 'Checking telemetry.sdk.language');
     assert.ok(exposedSpan.resource.attributes['telemetry.sdk.version'], 'Checking telemetry.sdk.version');
-    assert.ok(exposedSpan.resource.attributes['splunk.rumVersion'], 'Checking splunk.rumVersion');
-    assert.ok(exposedSpan.resource.attributes['splunk.scriptInstance'], 'Checking splunk.scriptInstance');
+    assert.ok(exposedSpan.resource.attributes['kloudmate.rumVersion'], 'Checking kloudmate.rumVersion');
+    assert.ok(exposedSpan.resource.attributes['kloudmate.scriptInstance'], 'Checking kloudmate.scriptInstance');
     assert.strictEqual(exposedSpan.resource.attributes['app'], 'my-app');
   });
 });
@@ -235,8 +235,8 @@ describe('setGlobalAttributes', () => {
   });
 
   it('should have extra fields added', () => {
-    const tracer = SplunkRum.provider.getTracer('test');
-    SplunkRum.setGlobalAttributes({ newKey: 'newVal' });
+    const tracer = KloudmateRum.provider.getTracer('test');
+    KloudmateRum.setGlobalAttributes({ newKey: 'newVal' });
     const span = tracer.startSpan('testSpan');
     span.end();
 
@@ -366,7 +366,7 @@ describe('test stack length', () => {
       recurAndThrow(50);
     } catch (e) {
       try {
-        SplunkRum.error('something happened: ', e); // try out the API
+        KloudmateRum.error('something happened: ', e); // try out the API
       } catch (e2) {
         // swallow
       }
@@ -467,10 +467,10 @@ describe('test manual report', () => {
 
   it('should not report useless items', () => {
     capturer.clear();
-    SplunkRum.error('');
-    SplunkRum.error();
-    SplunkRum.error([]);
-    SplunkRum.error({});
+    KloudmateRum.error('');
+    KloudmateRum.error();
+    KloudmateRum.error([]);
+    KloudmateRum.error({});
     assert.strictEqual(capturer.spans.length, 0);
   });
 });

@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Ignore urls</title>
 
 	<%- renderAgent({}, true) %>
-	<script>
+		<script>
 			//this is done because you can't inject RegExp to template via JSON.stringify
-			window.SplunkRumOptions.ignoreUrls = [location.origin + '/some-data', /server/];
-			window.SplunkRum && window.SplunkRum.init(window.SplunkRumOptions);
-	</script>
+			window.KloudmateRumOptions.ignoreUrls = [location.origin + '/some-data', /server/];
+			window.KloudmateRum && window.KloudmateRum.init(window.KloudmateRumOptions);
+		</script>
 </head>
+
 <body>
 	<h1>Ignore urls test</h1>
 	<script>
 		Promise.all([fetch('/some-data'), fetch('/no-server-timings')]).then(() => {
-			setTimeout(function() {
-				SplunkRum.provider.getTracer('default').startSpan('guard-span').end();
+			setTimeout(function () {
+				KloudmateRum.provider.getTracer('default').startSpan('guard-span').end();
 				// fetch instrumentation waits for some time (300) before ending spans
 			}, 310)
 		})
 	</script>
 </body>
+
 </html>

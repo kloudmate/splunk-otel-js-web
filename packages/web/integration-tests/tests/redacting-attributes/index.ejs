@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Redacting attributes with exporter.onAttributesSerializing</title>
   <%- renderAgent({}, true) %>
-  <script>
-    SplunkRumOptions.exporter = {
-      onAttributesSerializing: function (attributes) {
-        return Object.keys(attributes).reduce(function (acc, key) {
-          acc[key] = /https?\:\/\//.test(attributes[key]) ? '[redacted]' : attributes[key];
-          return acc;
-        }, {});
-      },
-    };
-    SplunkRum.init(SplunkRumOptions);
-  </script>
+    <script>
+      KloudmateRumOptions.exporter = {
+        onAttributesSerializing: function (attributes) {
+          return Object.keys(attributes).reduce(function (acc, key) {
+            acc[key] = /https?\:\/\//.test(attributes[key]) ? '[redacted]' : attributes[key];
+            return acc;
+          }, {});
+        },
+      };
+      KloudmateRum.init(KloudmateRumOptions);
+    </script>
 </head>
+
 <body>
   <p>Redacting attributes with exporter.onAttributesSerializing</p>
   <p>
-    Please note that redaction is applied right before sending the data. 
+    Please note that redaction is applied right before sending the data.
     Debug span preview in DevTools is not affected.
   </p>
 
@@ -31,4 +33,5 @@
   </script>
   <script>scenarioDisplay.innerHTML = scenario.innerHTML;</script>
 </body>
+
 </html>

@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -122,21 +122,21 @@ async function run(options) {
   });
 
   const artificialBaseUrl = new URL(`https://localhost:${beacon.port}`);
-  console.log('Splunk RUM sync in head (artificial)');
+  console.log('Kloudmate RUM sync in head (artificial)');
   await run({
     url: artificialBaseUrl,
     disableProxy: true,
     beaconPort: beacon.port,
   });
   
-  console.log('Splunk RUM sync before app (artificial)');
+  console.log('Kloudmate RUM sync before app (artificial)');
   await run({
     url: new URL('/?rumBottom=true', artificialBaseUrl),
     disableProxy: true,
     beaconPort: beacon.port,
   });
 
-  console.log('No splunk RUM (artificial)');
+  console.log('No kloudmate RUM (artificial)');
   await run({
     url: new URL('/?rumHead=false', artificialBaseUrl),
     disableProxy: true,
@@ -144,13 +144,13 @@ async function run(options) {
   });
 
   const githubUrl = new URL(`https://github.com`);
-  console.log('Splunk RUM injected in github.com (HEAD)');
+  console.log('Kloudmate RUM injected in github.com (HEAD)');
   await run({
     url: githubUrl,
     beaconPort: beacon.port,
   });
 
-  console.log('Splunk RUM not injected in github.com (HEAD)');
+  console.log('Kloudmate RUM not injected in github.com (HEAD)');
   await run({
     url: githubUrl,
     beaconPort: beacon.port,

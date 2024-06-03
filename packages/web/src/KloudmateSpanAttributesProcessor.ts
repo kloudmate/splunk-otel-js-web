@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ import { Attributes } from '@opentelemetry/api';
 import { Span, SpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { getRumSessionId } from './session';
 
-export class SplunkSpanAttributesProcessor implements SpanProcessor {
+export class KloudmateSpanAttributesProcessor implements SpanProcessor {
   private readonly _globalAttributes: Attributes;
 
   constructor(globalAttributes: Attributes) {
@@ -46,7 +46,7 @@ export class SplunkSpanAttributesProcessor implements SpanProcessor {
   onStart(span: Span): void {
     span.setAttribute('location.href', location.href);
     span.setAttributes(this._globalAttributes);
-    span.setAttribute('splunk.rumSessionId', getRumSessionId());
+    span.setAttribute('kloudmate.rumSessionId', getRumSessionId());
   }
 
   onEnd(): void {

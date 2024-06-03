@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import { ReadableSpan, SimpleSpanProcessor, SpanProcessor } from '@opentelemetry/sdk-trace-base';
-import SplunkRum, { SplunkZipkinExporter } from '../src/index';
+import KloudmateRum, { KloudmateZipkinExporter } from '../src/index';
 import { ZipkinSpan } from '../src/exporters/zipkin';
 
 export class SpanCapturer implements SpanProcessor {
@@ -31,12 +31,12 @@ export class SpanCapturer implements SpanProcessor {
   }
 }
 
-export function buildInMemorySplunkExporter(): {
-  exporter: SplunkZipkinExporter,
+export function buildInMemoryKloudmateExporter(): {
+  exporter: KloudmateZipkinExporter,
   getFinishedSpans: () => ZipkinSpan[],
   } {
   const spans: ZipkinSpan[] = [];
-  const exporter = new SplunkZipkinExporter({
+  const exporter = new KloudmateZipkinExporter({
     url: '',
     beaconSender: null,
     xhrSender: (_, data) => {
@@ -54,7 +54,7 @@ export function buildInMemorySplunkExporter(): {
 }
 
 export function initWithDefaultConfig(capturer: SpanCapturer, additionalOptions = {}): void {
-  SplunkRum._internalInit({
+  KloudmateRum._internalInit({
     beaconEndpoint: 'http://127.0.0.1:8888/v1/trace',
     allowInsecureBeacon: true,
     applicationName: 'my-app',
@@ -65,17 +65,17 @@ export function initWithDefaultConfig(capturer: SpanCapturer, additionalOptions 
     rumAccessToken: '123-no-warn-spam-in-console',
     ...additionalOptions,
   });
-  SplunkRum.provider.addSpanProcessor(capturer);
+  KloudmateRum.provider.addSpanProcessor(capturer);
 }
 
 export function initWithSyncPipeline(additionalOptions = {}): {
   forceFlush: () => Promise<void>,
   getFinishedSpans: () => ZipkinSpan[],
 } {
-  const { exporter, getFinishedSpans } = buildInMemorySplunkExporter();
+  const { exporter, getFinishedSpans } = buildInMemoryKloudmateExporter();
   const processor = new SimpleSpanProcessor(exporter);
 
-  SplunkRum._internalInit({
+  KloudmateRum._internalInit({
     beaconEndpoint: 'http://127.0.0.1:8888/v1/trace',
     allowInsecureBeacon: true,
     applicationName: 'my-app',
@@ -95,5 +95,5 @@ export function initWithSyncPipeline(additionalOptions = {}): {
 }
 
 export function deinit(): void {
-  SplunkRum.deinit();
+  KloudmateRum.deinit();
 }

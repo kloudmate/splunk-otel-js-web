@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Fetch - then</title>
 
-  <%- renderAgent({
-    context: {
-      async: true
-    }
-  }) %>
+  <%- renderAgent({ context: { async: true } }) %>
 
-  <script src="https://unpkg.com/vue@^3/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/vue@^3/dist/vue.global.prod.js"></script>
 
 </head>
+
 <body>
   <h1>Vue 3</h1>
 
-  <div id="root">    
+  <div id="root">
     <button type="button" id="btn1" @click="toggle = !toggle">Toggle</button>
     <lazy v-if="toggle"></lazy>
   </div>
@@ -30,7 +28,7 @@
 
     app.component('lazy', {
       mounted() {
-        SplunkRum.provider.getTracer('test').startSpan('custom-span').end()
+        KloudmateRum.provider.getTracer('test').startSpan('custom-span').end()
       },
       template: `<h1>Lazy</h1>`
     })
@@ -38,4 +36,5 @@
     app.mount('#root');
   </script>
 </body>
+
 </html>

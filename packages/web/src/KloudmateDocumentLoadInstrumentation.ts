@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import { Span } from '@opentelemetry/sdk-trace-base';
 import { isUrlIgnored } from '@opentelemetry/core';
 import { SemanticAttributes } from '@opentelemetry/semantic-conventions';
 
-export interface SplunkDocLoadInstrumentationConfig extends InstrumentationConfig {
+export interface KloudmateDocLoadInstrumentationConfig extends InstrumentationConfig {
   ignoreUrls?: (string|RegExp)[];
 }
 
@@ -45,8 +45,8 @@ type ExposedSuper = {
   _initResourceSpan(resource: PerformanceResourceTiming, parentSpan: api.Span): void;
 }
 
-export class SplunkDocumentLoadInstrumentation extends DocumentLoadInstrumentation {
-  constructor(config: SplunkDocLoadInstrumentationConfig = {}) {
+export class KloudmateDocumentLoadInstrumentation extends DocumentLoadInstrumentation {
+  constructor(config: KloudmateDocLoadInstrumentationConfig = {}) {
     super(config);
 
     const exposedSuper = this as any as ExposedSuper;

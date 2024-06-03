@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ export interface ContextManagerConfig {
 
 type EventListenerWithOrig = EventListener & {_orig?: EventListener};
 
-const ATTACHED_CONTEXT_KEY = '__splunk_context';
+const ATTACHED_CONTEXT_KEY = '__kloudmate_context';
 
 /**
  * Extends otel-web stack context manager.
  * Due to privates being unaccessible in subclasses (_enabled) need to copy-paste everything
  */
-export class SplunkContextManager implements ContextManager {
+export class KloudmateContextManager implements ContextManager {
   /**
    * whether the context manager is enabled or not
    */

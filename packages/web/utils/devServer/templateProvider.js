@@ -1,5 +1,5 @@
 /*
-Copyright 2021 Splunk Inc.
+Copyright 2021 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ const INJECT_TEMPLATE = `<script src="<%= file -%>" crossorigin="anonymous"></sc
   <script src="<%= otelApiGlobalsFile -%>" crossorigin="anonymous"></script>
   <script>
     <%if (noInit) { %>
-      window.SplunkRumOptions = <%- options -%>;
+      window.KloudmateRumOptions = <%- options -%>;
     <% } else { %>
-      window.SplunkRum && window.SplunkRum.init(<%- options -%>);
+      window.KloudmateRum && window.KloudmateRum.init(<%- options -%>);
     <% } %>
 
     var _testing = false;
@@ -45,14 +45,14 @@ const INJECT_TEMPLATE = `<script src="<%= file -%>" crossorigin="anonymous"></sc
       }
     });
     function _flushData(done) {
-      if (!window.SplunkRum) {
+      if (!window.KloudmateRum) {
         done(null);
       }
 
-      var span = SplunkRum.provider.getTracer('default').startSpan('guard-span');
+      var span = KloudmateRum.provider.getTracer('default').startSpan('guard-span');
       span.end();
       
-      SplunkRum._processor.forceFlush().then(function () {
+      KloudmateRum._processor.forceFlush().then(function () {
         done(span._spanContext.spanId);
       }, function () {
         done(null);
@@ -84,10 +84,10 @@ exports.registerTemplateProvider = ({ app, addHeaders, enableHttps }) => {
         beaconUrl.port = req.query.beaconPort;
       }
 
-      let defaultFile = '/dist/artifacts/splunk-otel-web.js';
+      let defaultFile = '/dist/artifacts/kloudmate-otel-web.js';
       const browser = req.header('User-Agent');
       if (browser && browser.includes('Trident')) {
-        defaultFile = '/dist/artifacts/splunk-otel-web-legacy.js';
+        defaultFile = '/dist/artifacts/kloudmate-otel-web-legacy.js';
       }
 
       addHeaders(res);
@@ -96,7 +96,7 @@ exports.registerTemplateProvider = ({ app, addHeaders, enableHttps }) => {
         renderAgent(userOpts = {}, noInit = false, file = defaultFile, cdnVersion = null) {
           const options = {
             beaconEndpoint: beaconUrl.toString(),
-            applicationName: 'splunk-otel-js-dummy-app',
+            applicationName: 'kloudmate-otel-js-dummy-app',
             debug: true,
             bufferTimeout: require('../../integration-tests/utils/globals').GLOBAL_TEST_BUFFER_TIMEOUT,
             ...userOpts
@@ -113,7 +113,7 @@ exports.registerTemplateProvider = ({ app, addHeaders, enableHttps }) => {
           }
 
           if (cdnVersion) {
-            file = `https://cdn.signalfx.com/o11y-gdi-rum/${cdnVersion}/splunk-otel-web.js`;
+            file = `https://cdn.signalfx.com/o11y-gdi-rum/${cdnVersion}/kloudmate-otel-web.js`;
           }
 
           return render(INJECT_TEMPLATE, {

@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Splunk Inc.
+Copyright 2024 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,9 +26,9 @@ const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for('opentelemetry.js.api.1');
 export function getGlobal<Type>(
   type: string
 ): Type | undefined {
-  const globalSplunkRumVersion = globalThis[GLOBAL_OPENTELEMETRY_API_KEY]?.['splunk.rum.version'];
-  if (!globalSplunkRumVersion || globalSplunkRumVersion !== VERSION) {
-    console.warn(`SplunkSessionRecorder: Version mismatch with SplunkRum (RUM: ${globalSplunkRumVersion}, recorder: ${VERSION})`);
+  const globalKloudmateRumVersion = globalThis[GLOBAL_OPENTELEMETRY_API_KEY]?.['kloudmate.rum.version'];
+  if (!globalKloudmateRumVersion || globalKloudmateRumVersion !== VERSION) {
+    console.warn(`KloudmateSessionRecorder: Version mismatch with KloudmateRum (RUM: ${globalKloudmateRumVersion}, recorder: ${VERSION})`);
     return undefined; // undefined for eslint
   }
 

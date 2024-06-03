@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Mutation Observer - textNode</title>
 
-  <%- renderAgent({
-    context: {
-      async: true
-    }
-  }) %>
+  <%- renderAgent({ context: { async: true } }) %>
 </head>
+
 <body>
   <h1>Mutation Observer - textNode</h1>
 
@@ -19,7 +17,7 @@
     // Based on vue's implementation of nextTick
     // https://github.com/vuejs/vue/blob/0603ff695d2f41286239298210113cbe2b209e28/src/core/util/next-tick.js#L59
     var observer = new MutationObserver(function () {
-      SplunkRum.provider.getTracer('default').startSpan('context-child').end();
+      KloudmateRum.provider.getTracer('default').startSpan('context-child').end();
       window.testing = false;
     });
 
@@ -35,4 +33,5 @@
     });
   </script>
 </body>
+
 </html>

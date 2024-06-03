@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Splunk Inc.
+Copyright 2020 Kloudmate Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -75,10 +75,10 @@ module.exports = {
     await browser.assert.strictEqual(atts.tags['environment'], 'custom-environment');
 
     // Set as a resource, zipkin exporter should merge into tags
-    await browser.assert.strictEqual(atts.tags['telemetry.sdk.name'], '@splunk/otel-web');
+    await browser.assert.strictEqual(atts.tags['telemetry.sdk.name'], '@kloudmate/otel-web');
     await browser.assert.strictEqual(atts.tags['telemetry.sdk.language'], 'webjs');
     await browser.assert.strictEqual(atts.tags['telemetry.sdk.version'], browser.globals.rumVersion);
-    await browser.assert.strictEqual(atts.tags['splunk.rumVersion'], browser.globals.rumVersion);
+    await browser.assert.strictEqual(atts.tags['kloudmate.rumVersion'], browser.globals.rumVersion);
 
     await browser.globals.assertNoErrorSpans();
   },
