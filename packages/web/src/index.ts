@@ -24,7 +24,7 @@ import {
   SpanExporter,
   SpanProcessor,
   BufferConfig,
-  AlwaysOffSampler, AlwaysOnSampler, ParentBasedSampler, 
+  AlwaysOffSampler, AlwaysOnSampler, ParentBasedSampler,
 } from '@opentelemetry/sdk-trace-base';
 import { WebTracerConfig } from '@opentelemetry/sdk-trace-web';
 import { Attributes, diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
@@ -271,7 +271,7 @@ function getBeaconEndpointForRealm(config: SplunkOtelWebConfigInternal) {
 }
 
 function buildExporter(options: SplunkOtelWebConfigInternal) {
-  const url = options.beaconEndpoint as string;
+  const url = `${options.beaconEndpoint}/v1/traces`;
   return options.exporter.factory({
     url,
     otlp: true,

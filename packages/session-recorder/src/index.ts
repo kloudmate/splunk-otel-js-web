@@ -34,7 +34,7 @@ export type SplunkRumRecorderConfig = RRWebOptions & {
   /** Destination for the captured data */
   beaconEndpoint?: string;
 
-  /** Destination for the captured data 
+  /** Destination for the captured data
    * @deprecated Use beaconEndpoint
    */
   beaconUrl?: string;
@@ -136,7 +136,7 @@ const SplunkRumRecorder = {
     }
     span.end();
 
-    let exportUrl = beaconEndpoint;
+    let exportUrl = `${beaconEndpoint}/v1/logs`;
     if (realm) {
       if (!exportUrl) {
         exportUrl = `https://rum-ingest.${realm}.signalfx.com/v1/rumreplay`;
@@ -158,7 +158,7 @@ const SplunkRumRecorder = {
     const exporter = new OTLPLogExporter({
       beaconUrl: exportUrl,
       debug,
-      headers, 
+      headers,
       getResourceAttributes() {
         return {
           ...resource.attributes,
