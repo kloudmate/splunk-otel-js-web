@@ -22,7 +22,7 @@ export interface SplunkExporterConfig {
   onAttributesSerializing?: (attributes: Attributes, span: ReadableSpan) => Attributes,
   xhrSender?: (url: string, data: string, headers?: Record<string, string>) => void,
   beaconSender?: (url: string, data: string, headers?: Record<string, string>) => void,
-  apiToken?: string;
+  rumAccessToken?: string;
 }
 
 export function NOOP_ATTRIBUTES_TRANSFORMER(attributes: Attributes): Attributes {

@@ -276,7 +276,7 @@ function buildExporter(options: SplunkOtelWebConfigInternal) {
     url,
     otlp: true,
     onAttributesSerializing: options.exporter.onAttributesSerializing,
-    apiToken: options.rumAccessToken,
+    rumAccessToken: options.rumAccessToken,
   });
 }
 

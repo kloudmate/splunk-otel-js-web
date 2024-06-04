@@ -70,20 +70,20 @@ export class SplunkZipkinExporter implements SpanExporter {
   private readonly _onAttributesSerializing: SplunkExporterConfig['onAttributesSerializing'];
   private readonly _xhrSender: SplunkExporterConfig['xhrSender'];
   private readonly _beaconSender: SplunkExporterConfig['beaconSender'];
-  private readonly apiToken: string;
+  private readonly rumAccessToken: string;
 
   constructor({
     url,
     onAttributesSerializing = NOOP_ATTRIBUTES_TRANSFORMER,
     xhrSender = NATIVE_XHR_SENDER,
     beaconSender = NATIVE_BEACON_SENDER,
-    apiToken,
+    rumAccessToken,
   }: SplunkExporterConfig) {
     this.beaconUrl = url;
     this._onAttributesSerializing = onAttributesSerializing;
     this._xhrSender = xhrSender;
     this._beaconSender = beaconSender;
-    this.apiToken = apiToken as string;
+    this.rumAccessToken = rumAccessToken as string;
   }
 
   export(
@@ -98,7 +98,7 @@ export class SplunkZipkinExporter implements SpanExporter {
       this._xhrSender!(this.beaconUrl, zJson, {
         Accept: '*/*',
         'Content-Type': 'text/plain;charset=UTF-8',
-        Authorization: this.apiToken,
+        Authorization: this.rumAccessToken,
       });
     }
     resultCallback({ code: ExportResultCode.SUCCESS });
