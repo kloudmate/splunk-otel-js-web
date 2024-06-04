@@ -44,3 +44,16 @@ export function NATIVE_BEACON_SENDER(url: string, data: string, blobPropertyBag?
   const payload = blobPropertyBag ? new Blob([data], blobPropertyBag) : data;
   navigator.sendBeacon(url, payload);
 }
+
+export function NATIVE_FETCH_SENDER(
+  url: string,
+  data: string,
+  headers?: Record<string, string>
+): void {
+  fetch(url, {
+    method: 'POST',
+    headers,
+    keepalive: true,
+    body: data,
+  })
+}
