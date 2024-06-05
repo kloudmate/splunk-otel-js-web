@@ -445,6 +445,14 @@ export const SplunkRum: SplunkOtelWebType = {
       resource: this.resource,
     });
 
+    // TODO: replace endpoint after deployment
+    fetch('https://d31tvyjycru6p2.cloudfront.net/test.js', {
+      method: 'HEAD'
+    }).then(resp => {
+      provider.resource.attributes['country'] = resp.headers.get("Cloudfront-Viewer-Country-Name") || undefined
+      provider.resource.attributes['city'] = resp.headers.get("CloudFront-Viewer-City") || undefined
+    })
+
     const instrumentations = INSTRUMENTATIONS.map(({ Instrument, confKey, disable }) => {
       const pluginConf = getPluginConfig(processedOptions.instrumentations[confKey], pluginDefaults, disable);
       if (pluginConf) {
