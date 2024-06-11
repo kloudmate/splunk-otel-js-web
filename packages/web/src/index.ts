@@ -24,7 +24,7 @@ import {
   SpanExporter,
   SpanProcessor,
   BufferConfig,
-  AlwaysOffSampler, AlwaysOnSampler, ParentBasedSampler, 
+  AlwaysOffSampler, AlwaysOnSampler, ParentBasedSampler,
 } from '@opentelemetry/sdk-trace-base';
 import { WebTracerConfig } from '@opentelemetry/sdk-trace-web';
 import { Attributes, diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
@@ -271,11 +271,12 @@ function getBeaconEndpointForRealm(config: SplunkOtelWebConfigInternal) {
 }
 
 function buildExporter(options: SplunkOtelWebConfigInternal) {
-  const url = options.beaconEndpoint + (options.rumAccessToken ? '?auth='+options.rumAccessToken : '');
+  const url = `${options.beaconEndpoint}/v1/traces`;
   return options.exporter.factory({
     url,
-    otlp: options.exporter.otlp,
+    otlp: true,
     onAttributesSerializing: options.exporter.onAttributesSerializing,
+    rumAccessToken: options.rumAccessToken,
   });
 }
 
@@ -418,7 +419,10 @@ export const SplunkRum: SplunkOtelWebType = {
     // enabled: false prevents registerInstrumentations from enabling instrumentations in constructor
     // they will be enabled in registerInstrumentations
     const pluginDefaults = { ignoreUrls, enabled: false };
-
+    let userAgent = ""
+    if(window.navigator){
+      userAgent=window.navigator.userAgent
+    }
     const resourceAttrs: ResourceAttributes = {
       ...SDK_INFO,
       [SemanticResourceAttributes.TELEMETRY_SDK_NAME]: '@splunk/otel-web',
@@ -426,7 +430,8 @@ export const SplunkRum: SplunkOtelWebType = {
       // Splunk specific attributes
       'splunk.rumVersion': VERSION,
       'splunk.scriptInstance': instanceId,
-      'app': applicationName,
+      'service.name': applicationName,
+      'userAgent': userAgent
     };
 
     const syntheticsRunId = getSyntheticsRunId();
@@ -439,6 +444,14 @@ export const SplunkRum: SplunkOtelWebType = {
       ...processedOptions.tracer,
       resource: this.resource,
     });
+
+    // TODO: replace endpoint after deployment
+    fetch('https://d31tvyjycru6p2.cloudfront.net/test.js', {
+      method: 'HEAD'
+    }).then(resp => {
+      provider.resource.attributes['country'] = resp.headers.get("Cloudfront-Viewer-Country-Name") || undefined
+      provider.resource.attributes['city'] = resp.headers.get("CloudFront-Viewer-City") || undefined
+    })
 
     const instrumentations = INSTRUMENTATIONS.map(({ Instrument, confKey, disable }) => {
       const pluginConf = getPluginConfig(processedOptions.instrumentations[confKey], pluginDefaults, disable);

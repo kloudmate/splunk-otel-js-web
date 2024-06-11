@@ -70,12 +70,14 @@ export class SplunkZipkinExporter implements SpanExporter {
   private readonly _onAttributesSerializing: SplunkExporterConfig['onAttributesSerializing'];
   private readonly _xhrSender: SplunkExporterConfig['xhrSender'];
   private readonly _beaconSender: SplunkExporterConfig['beaconSender'];
+  private readonly rumAccessToken: string;
 
   constructor({
     url,
     onAttributesSerializing = NOOP_ATTRIBUTES_TRANSFORMER,
     xhrSender = NATIVE_XHR_SENDER,
     beaconSender = NATIVE_BEACON_SENDER,
+    rumAccessToken,
   }: SplunkExporterConfig) {
     this.beaconUrl = url;
     this._onAttributesSerializing = onAttributesSerializing;
@@ -87,7 +89,7 @@ export class SplunkZipkinExporter implements SpanExporter {
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void
   ): void {
-    const zspans = spans.map(span => this._mapToZipkinSpan(span));
+    const zspans = spans.map((span) => this._mapToZipkinSpan(span));
     const zJson = JSON.stringify(zspans);
     if (document.hidden && this._beaconSender && zJson.length <= 64000) {
       this._beaconSender(this.beaconUrl, zJson);
