@@ -199,7 +199,7 @@ const SplunkRumRecorder = {
           return;
         }
 
-        const time = event.timestamp;
+        const time = event.timestamp * 1000000
         const eventI = eventCounter++;
         // Research found that stringifying the rr-web event here is
         // more efficient for otlp + gzip exporting
@@ -262,3 +262,4 @@ const SplunkRumRecorder = {
 };
 
 export default SplunkRumRecorder;
+
